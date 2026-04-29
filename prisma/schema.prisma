@@ -1,0 +1,37 @@
+// Website-only database: `DATABASE_URL` must point to a Postgres instance dedicated to this
+// marketing site (ServiceRequest, etc.). Do NOT use the maintenance portal production DB here;
+// long-term, portal-owned data can be ingested via a dedicated API when you intentionally integrate.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ServiceRequestStatus {
+  NEW
+  CONTACTED
+  SCHEDULED
+  IN_SHOP
+  WAITING_PARTS
+  READY
+  COMPLETED
+}
+
+model ServiceRequest {
+  id          String                @id @default(cuid())
+  createdAt   DateTime              @default(now())
+  name        String
+  phone       String
+  email       String?
+  address     String?
+  brand       String?
+  model       String?
+  issue       String                @db.Text
+  needsPickup Boolean               @default(false)
+  bestTime    String?
+  status      ServiceRequestStatus  @default(NEW)
+}
