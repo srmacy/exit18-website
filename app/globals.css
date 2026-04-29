@@ -1,26 +1,46 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --exit-green: #1a5c2a;
+  --exit-green-mid: #2d7a3a;
+  --exit-lime: #7cff6b;
+  --exit-white: #ffffff;
+  --exit-off-white: #f4f2ee;
+  --exit-warm: #faf7f2;
+  --exit-warm-mid: #ede9e1;
+  --exit-gray: #6b6b6b;
+  --exit-dark: #0e1a0f;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-exit-green: var(--exit-green);
+  --color-exit-green-mid: var(--exit-green-mid);
+  --color-exit-lime: var(--exit-lime);
+  --color-exit-off-white: var(--exit-off-white);
+  --color-exit-warm: var(--exit-warm);
+  --color-exit-warm-mid: var(--exit-warm-mid);
+  --color-exit-gray: var(--exit-gray);
+  --color-exit-dark: var(--exit-dark);
+  --font-sans: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
+  --font-family-display: var(--font-barlow-condensed), ui-sans-serif, system-ui,
+    sans-serif;
+  --font-family-hand: var(--font-caveat), cursive;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.font-display {
+  font-family: var(--font-barlow-condensed), sans-serif;
+}
+
+.font-hand {
+  font-family: var(--font-caveat), cursive;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--exit-off-white);
+  color: var(--exit-dark);
+  overflow-x: hidden;
 }
