@@ -20,17 +20,17 @@ export type HeroHeadlineBlock = HeroHeadlineRow[];
 
 export type PortalStep = { number: string; htmlParts: string };
 
-export type PortalPreviewMachine = {
-  icon: string;
-  name: string;
-  detail: string;
-  badge: string;
+export type PortalSpotlightImage = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
 };
 
 export type ServiceCardContent = {
-  emoji: string;
-  /** Tailwind-friendly hex via arbitrary value or preset key */
-  imageBgClass: string;
+  /** Full-width photo in card header */
+  heroImageSrc: string;
+  heroImageAlt: string;
   title: string;
   description: string;
 };
@@ -50,12 +50,35 @@ export type ContactRow = {
 
 export type FooterNavLink = { label: string; href: string };
 
-/** Square Online Storefront outbound links — `/store` brand grid (`squareStorefrontUrl` is editable) */
-export type StoreSquareBrandLink = {
+/** `/store` — brand storefront cards (Square links) */
+export type StorePageBrandCard = {
   id: string;
-  label: string;
-  /** Replace with live Square storefront / category URLs when ready */
+  name: string;
+  description: string;
+  shopLinkLabel: string;
   squareStorefrontUrl: string;
+  /** `/public` path like `/images/x.png`; empty = logo placeholder box */
+  logoSrc: string;
+  /** Same; empty = product image placeholder box */
+  productImageSrc: string;
+};
+
+/** `/store` — featured item cards (Square product URLs; display only — no checkout on site) */
+export type StorePageFeaturedProduct = {
+  id: string;
+  name: string;
+  priceDisplay: string;
+  viewProductLabel: string;
+  squareProductUrl: string;
+  /** `/public` or remote; empty = placeholder */
+  productImageSrc: string;
+};
+
+/** `/store` — trust strip under featured products */
+export type StorePageTrustColumn = {
+  icon: string;
+  title: string;
+  description: string;
 };
 
 export type AboutWhyCard = {
@@ -63,6 +86,14 @@ export type AboutWhyCard = {
   title: string;
   description: string;
 };
+
+/** Single source for Parts / Maintenance Portal links site-wide. Swap for production host when ready (e.g. portal.exit18equipment.com). */
+export const maintenancePortalUrl =
+  "https://exit18-maintenance-portal.vercel.app" as const;
+
+/** Hostname only — contact strip display */
+export const maintenancePortalHostname =
+  "exit18-maintenance-portal.vercel.app" as const;
 
 export const siteContent = {
   seo: {
@@ -95,9 +126,9 @@ export const siteContent = {
   },
 
   portal: {
-    /** Maintenance portal — nav CTA, promo section, footer */
-    url: "https://exit18-maintenance-portal.vercel.app",
-    hostnameDisplay: "exit18-maintenance-portal.vercel.app",
+    /** Same as `maintenancePortalUrl` — use `siteContent.portal.url` in components */
+    url: maintenancePortalUrl,
+    hostnameDisplay: maintenancePortalHostname,
   },
 
   navbar: {
@@ -109,7 +140,7 @@ export const siteContent = {
       { label: "Contact", href: "/contact" },
       {
         label: "Parts Portal",
-        href: "https://exit18-maintenance-portal.vercel.app",
+        href: maintenancePortalUrl,
         variant: "cta",
       },
     ] satisfies NavLink[],
@@ -150,47 +181,37 @@ export const siteContent = {
   },
 
   portalPromo: {
-    tag: "New Feature",
-    titleLines: ["Order Parts", "Before You", "Pull In."],
+    tag: "Maintenance Portal",
+    titleLines: ["Order", "Maintenance", "Parts", "Before You Pull In."],
     description:
-      "Our new Maintenance Portal lets you order your routine parts online — we'll have everything pulled and waiting at the counter when you arrive.",
+      "Log in, choose your machine, and order routine maintenance parts ahead of time. We'll pull everything and have it ready at the counter.",
     steps: [
       {
         number: "1",
         htmlParts:
-          "<strong>Log in with your name & phone.</strong> No password needed — we already have your machines on file.",
+          "<strong>Find your equipment.</strong>",
       },
       {
         number: "2",
         htmlParts:
-          "<strong>Select your machine & add parts.</strong> Pre-built kits for your exact equipment. One tap to order.",
+          "<strong>Choose your maintenance kit.</strong>",
       },
       {
         number: "3",
         htmlParts:
-          "<strong>Get an email when it's ready.</strong> Walk in, grab your order, pay at the counter.",
+          "<strong>Pick up at the counter.</strong>",
       },
     ] satisfies PortalStep[],
-    ctaLabel: "Access the Portal →",
-    previewCard: {
-      subtitle: "Maintenance Portal",
-      /** Decorative preview rows (demo UI) */
-      machines: [
-        {
-          icon: "🚜",
-          name: 'Ferris IS600Z 52"',
-          detail: "Serial ending 5559 · 2 service kits",
-          badge: "Ready",
-        },
-        {
-          icon: "🌿",
-          name: 'Toro TimeCutter 50"',
-          detail: "Serial ending 2241 · 1 service kit",
-          badge: "Ready",
-        },
-      ] satisfies PortalPreviewMachine[],
-      previewButtonLabel: "View Maintenance & Order Parts",
-    },
+    trustNote:
+      "Built for Exit 18 customers with equipment already on file.",
+    ctaLabel: "Open Parts Portal",
+    spotlightImage: {
+      src: "/images/portal-product-hero.png",
+      alt:
+        "Exit 18 Maintenance Portal — login, maintenance kit checkout, and cart",
+      width: 1535,
+      height: 1024,
+    } satisfies PortalSpotlightImage,
   },
 
   story: {
@@ -214,22 +235,24 @@ export const siteContent = {
     titleLines: ["We're a Shop,", "Not a Chain."],
     cards: [
       {
-        emoji: "🛒",
-        imageBgClass: "bg-[#1a5c2a]",
+        heroImageSrc: "/images/equipment-sales.jpg",
+        heroImageAlt:
+          "Red zero-turn mower at Exit 18 Equipment showroom in Vermont",
         title: "Equipment Sales",
         description:
           "We sell the brands we believe in — Honda, Ferris, Toro, Echo & Simplicity. We'll help you find the right machine, not just the most expensive one.",
       },
       {
-        emoji: "🔧",
-        imageBgClass: "bg-[#0f3320]",
+        heroImageSrc: "/images/service-repairs.jpg",
+        heroImageAlt: "Mechanic tools and socket set on a workbench",
         title: "Service & Repairs",
         description:
           "Our techs have seen it all. Whether it's a tune-up or a full rebuild, we'll get your equipment back in the field fast.",
       },
       {
-        emoji: "📦",
-        imageBgClass: "bg-[#1a3a1a]",
+        heroImageSrc: "/images/parts-accessories.jpg",
+        heroImageAlt:
+          "Engine maintenance parts including filters, spark plug, and oil",
         title: "Parts & Accessories",
         description:
           "We stock the parts you actually need. Commercial customers can now order routine maintenance parts online and pick up at the counter.",
@@ -257,8 +280,8 @@ export const siteContent = {
       {
         icon: "🌐",
         label: "Parts Portal",
-        value: "exit18-maintenance-portal.vercel.app",
-        href: "https://exit18-maintenance-portal.vercel.app",
+        value: maintenancePortalHostname,
+        href: maintenancePortalUrl,
       },
       {
         icon: "⭐",
@@ -359,7 +382,7 @@ export const siteContent = {
       primary: { label: "Contact Us", href: "/#hours" },
       secondary: {
         label: "Open Parts Portal",
-        href: "https://exit18-maintenance-portal.vercel.app",
+        href: maintenancePortalUrl,
       },
     },
   },
@@ -560,63 +583,165 @@ export const siteContent = {
 
   storePage: {
     seo: {
-      title: "Shop Online",
+      title: "Store",
       description:
-        "Browse outdoor power equipment, parts & accessories online from Exit 18 Equipment — Georgia, VT. Brand storefronts hosted on Square.",
+        "Shop parts and equipment online with Exit 18 Equipment — order on Square and pick up in Georgia, Vermont. Honda, Toro, Echo, Ferris, Briggs & Stratton.",
+    },
+    heroInteriorImage: {
+      src: "/images/store-hero-showroom.png",
+      alt: "Equipment showroom interior at Exit 18 Equipment — mowers and power equipment",
     },
     hero: {
-      eyebrow: "Family owned · Georgia, Vermont · Since 1995",
-      titleLines: ["Shop Equipment", "Parts & Accessories"],
+      eyebrow: "ONLINE STORE",
+      headline: "SHOP PARTS & EQUIPMENT",
+      subtext: "Order online, pick up locally in Georgia, Vermont.",
+      shopByBrandSectionId: "shop-by-brand",
+      shopByBrandButtonLabel: "SHOP BY BRAND →",
+      viewAllProductsButtonLabel: "VIEW ALL PRODUCTS",
     },
-    intro:
-      "Choose your preferred brand below to browse our online inventory.",
-    introEyebrow: "Square storefront",
-    squareCheckoutLine:
-      "Checkout runs on Square — secure payments matched to what we use at the counter.",
-    brandCardActionLabel: "Browse on Square",
-    /** Placeholder outbound URLs — swap for your live Square storefront or category URLs */
-    squareBrands: [
+    /** Full Square catalog placeholder — VIEW ALL PRODUCTS CTA */
+    viewAllProductsSquareUrl:
+      "https://PLACEHOLDER_REPLACE.square.site/full-catalog",
+
+    shopByBrandTitle: "SHOP BY BRAND",
+    /** Square storefront URLs placeholders — swap when live */
+    brandCards: [
       {
-        id: "honda",
-        label: "Honda",
+        id: "echo",
+        name: "ECHO",
+        description: "Outdoor power equipment & accessories",
+        shopLinkLabel: "SHOP ECHO →",
         squareStorefrontUrl:
-          "https://PLACEHOLDER_REPLACE.square.site/exit18-honda",
-      },
-      {
-        id: "ferris",
-        label: "Ferris",
-        squareStorefrontUrl:
-          "https://PLACEHOLDER_REPLACE.square.site/exit18-ferris",
+          "https://PLACEHOLDER_REPLACE.square.site/exit18-brand-echo",
+        logoSrc: "",
+        productImageSrc: "",
       },
       {
         id: "toro",
-        label: "Toro",
+        name: "TORO",
+        description: "Mowers, snowblowers, and more",
+        shopLinkLabel: "SHOP TORO →",
         squareStorefrontUrl:
-          "https://PLACEHOLDER_REPLACE.square.site/exit18-toro",
+          "https://PLACEHOLDER_REPLACE.square.site/exit18-brand-toro",
+        logoSrc: "",
+        productImageSrc: "",
       },
       {
-        id: "echo",
-        label: "Echo",
+        id: "honda",
+        name: "HONDA",
+        description: "Generators, pumps, and engines",
+        shopLinkLabel: "SHOP HONDA →",
         squareStorefrontUrl:
-          "https://PLACEHOLDER_REPLACE.square.site/exit18-echo",
+          "https://PLACEHOLDER_REPLACE.square.site/exit18-brand-honda",
+        logoSrc: "",
+        productImageSrc: "",
       },
       {
-        id: "simplicity",
-        label: "Simplicity",
+        id: "ferris",
+        name: "FERRIS",
+        description: "Commercial-grade mowing equipment",
+        shopLinkLabel: "SHOP FERRIS →",
         squareStorefrontUrl:
-          "https://PLACEHOLDER_REPLACE.square.site/exit18-simplicity",
+          "https://PLACEHOLDER_REPLACE.square.site/exit18-brand-ferris",
+        logoSrc: "",
+        productImageSrc: "",
       },
       {
-        id: "all",
-        label: "All Products",
+        id: "briggs",
+        name: "BRIGGS & STRATTON",
+        description: "Engines & replacement parts",
+        shopLinkLabel: "SHOP BRIGGS →",
         squareStorefrontUrl:
-          "https://PLACEHOLDER_REPLACE.square.site/exit18-all-products",
+          "https://PLACEHOLDER_REPLACE.square.site/exit18-brand-briggs",
+        logoSrc: "",
+        productImageSrc: "",
       },
-    ] satisfies StoreSquareBrandLink[],
-    inventoryNote:
-      "Inventory changes quickly. If you don’t see what you need, call the shop.",
-    partsPortalCta: {
-      label: "Need routine service parts? Visit the Parts Portal.",
+    ] satisfies StorePageBrandCard[],
+
+    featuredProductsTitle: "FEATURED PRODUCTS",
+    featuredProducts: [
+      {
+        id: "ferris-blades",
+        name: `Ferris 52" Mulching Blade (Set of 3)`,
+        priceDisplay: "$47.00",
+        viewProductLabel: "VIEW PRODUCT →",
+        squareProductUrl:
+          "https://PLACEHOLDER_REPLACE.square.site/product/ferris-blades-placeholder",
+        productImageSrc: "",
+      },
+      {
+        id: "vanguard-oil",
+        name:
+          "Vanguard 5W-30 Full Synthetic Engine Oil Quart (100401Q)",
+        priceDisplay: "$6.39",
+        viewProductLabel: "VIEW PRODUCT →",
+        squareProductUrl:
+          "https://PLACEHOLDER_REPLACE.square.site/product/vanguard-oil-placeholder",
+        productImageSrc: "",
+      },
+      {
+        id: "echo-trimmer-line",
+        name: `ECHO .095" Cross-Fire Trimmer Line (5 lb. Spool)`,
+        priceDisplay: "$32.99",
+        viewProductLabel: "VIEW PRODUCT →",
+        squareProductUrl:
+          "https://PLACEHOLDER_REPLACE.square.site/product/echo-line-placeholder",
+        productImageSrc: "",
+      },
+      {
+        id: "honda-filter",
+        name: "Honda Oil Filter (15400-PLM-A02)",
+        priceDisplay: "$8.99",
+        viewProductLabel: "VIEW PRODUCT →",
+        squareProductUrl:
+          "https://PLACEHOLDER_REPLACE.square.site/product/honda-filter-placeholder",
+        productImageSrc: "",
+      },
+    ] satisfies StorePageFeaturedProduct[],
+
+    whyBuyTitle: "WHY BUY FROM EXIT 18",
+    whyTrustColumns: [
+      {
+        icon: "📍",
+        title: "Local Pickup in Georgia, VT",
+        description:
+          "Order online and pick up at our store. Support local.",
+      },
+      {
+        icon: "🎧",
+        title: "Real Technicians, Not a Call Center",
+        description:
+          "Get honest advice from our experienced team.",
+      },
+      {
+        icon: "🔧",
+        title: "Parts & Service After the Sale",
+        description:
+          "We're here to keep your equipment running.",
+      },
+      {
+        icon: "🛡️",
+        title: "We Stock What We Trust",
+        description:
+          "Quality brands. Proven performance.",
+      },
+    ] satisfies StorePageTrustColumn[],
+
+    bottomBand: {
+      headline: "NEED EQUIPMENT, SERVICE, OR PARTS?",
+      subtext: "We're here to help you get the job done right.",
+      shopEquipmentCtaLabel: "SHOP EQUIPMENT →",
+      shopEquipmentHref: "/equipment",
+      serviceRepairsCtaLabel: "SERVICE & REPAIRS →",
+      serviceRepairsHref: "/service",
+      visitHeading: "VISIT US",
+      visitLines: ["Exit 18 Equipment", "Georgia, Vermont"],
+      callHeading: "CALL US",
+      callHoursSummary: "Tue–Fri 8–5 · Sat 8–12",
+      partsPortalHeading: "PARTS PORTAL",
+      partsPortalDescription:
+        "Order parts online anytime, anywhere.",
+      partsPortalLinkLabel: "Open portal →",
     },
   },
 
@@ -650,7 +775,7 @@ export const siteContent = {
       { label: "Contact", href: "/contact" },
       {
         label: "Parts Portal",
-        href: "https://exit18-maintenance-portal.vercel.app",
+        href: maintenancePortalUrl,
       },
     ] satisfies FooterNavLink[],
   },

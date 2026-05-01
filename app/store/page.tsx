@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { BrandsStrip } from "@/components/BrandsStrip";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
-import { StoreHero } from "@/components/store/StoreHero";
-import { StorePartsPortalCta } from "@/components/store/StorePartsPortalCta";
-import { StoreShopSection } from "@/components/store/StoreShopSection";
-import { WaveDivider } from "@/components/WaveDivider";
+import { StoreBottomBand } from "@/components/store/StoreBottomBand";
+import { StoreFeaturedProducts } from "@/components/store/StoreFeaturedProducts";
+import { StoreShopByBrand } from "@/components/store/StoreShopByBrand";
+import { StoreSplitHero } from "@/components/store/StoreSplitHero";
+import { StoreWhyBuy } from "@/components/store/StoreWhyBuy";
 import { siteContent } from "@/content/siteContent";
 
 export const metadata: Metadata = {
@@ -18,14 +18,11 @@ export default function StorePage() {
     <>
       <Navbar />
       <main className="pt-16">
-        <StoreHero />
-        <BrandsStrip />
-        <WaveDivider variant="intoGreen" />
-        <div className="h-14 shrink-0 bg-exit-green" aria-hidden />
-        <WaveDivider variant="outOfGreen" />
-        <StoreShopSection />
-        <WaveDivider variant="warmToOff" />
-        <StorePartsPortalCta />
+        <StoreSplitHero />
+        <StoreShopByBrand />
+        <StoreFeaturedProducts />
+        <StoreWhyBuy />
+        <StoreBottomBand />
       </main>
       <Footer />
     </>

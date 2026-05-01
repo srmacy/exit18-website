@@ -44,3 +44,25 @@ body {
   color: var(--exit-dark);
   overflow-x: hidden;
 }
+
+/* Store /store hero photo — subtle drift; disable when user prefers reduced motion */
+@keyframes store-hero-drift {
+  0% {
+    transform: scale(1.038) translate3d(0.15%, 0, 0);
+  }
+  100% {
+    transform: scale(1.058) translate3d(-0.45%, 0.12%, 0);
+  }
+}
+
+.store-hero-photo-drift {
+  will-change: transform;
+  animation: store-hero-drift 36s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-hero-photo-drift {
+    animation: none;
+    transform: scale(1.048) translate3d(0, 0, 0);
+  }
+}

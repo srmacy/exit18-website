@@ -1,4 +1,13 @@
+import Image from "next/image";
 import { siteContent } from "@/content/siteContent";
+
+const SERVICE_CARD_IMAGE_ALT: Record<string, string> = {
+  "Equipment Sales":
+    "Red zero-turn mower outside an equipment dealership",
+  "Service & Repairs": "Tools and sockets on a repair workbench",
+  "Parts & Accessories":
+    "Maintenance parts including filters oil and spark plugs",
+};
 
 export function ServicesSection() {
   const { services } = siteContent;
@@ -28,11 +37,18 @@ export function ServicesSection() {
             key={c.title}
             className="overflow-hidden rounded-2xl border border-black/[0.06] bg-white shadow-none transition hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(0,0,0,0.1)]"
           >
-            <div
-              className={`flex h-[140px] items-center justify-center text-5xl sm:h-[180px] ${c.imageBgClass}`}
-              aria-hidden
-            >
-              {c.emoji}
+            <div className="relative h-72 w-full overflow-hidden rounded-t-2xl">
+              <Image
+                src={c.heroImageSrc}
+                alt={SERVICE_CARD_IMAGE_ALT[c.title] ?? c.title}
+                fill
+                className="h-full w-full object-cover object-center contrast-110 brightness-105 saturate-105"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 400px"
+              />
+              <div
+                className="pointer-events-none absolute inset-0 z-[1] bg-black/10"
+                aria-hidden
+              />
             </div>
             <div className="p-5">
               <h3 className="font-display mb-1.5 text-[22px] font-extrabold uppercase text-exit-dark">
