@@ -21,6 +21,8 @@
   --color-exit-warm-mid: var(--exit-warm-mid);
   --color-exit-gray: var(--exit-gray);
   --color-exit-dark: var(--exit-dark);
+  /** Align with common shadcn-style utilities for body / muted copy */
+  --color-muted-foreground: var(--exit-gray);
   --font-sans: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
   --font-family-display: var(--font-barlow-condensed), ui-sans-serif, system-ui,
     sans-serif;
@@ -64,5 +66,55 @@ body {
   .store-hero-photo-drift {
     animation: none;
     transform: scale(1.048) translate3d(0, 0, 0);
+  }
+}
+
+/* Authorized Dealer strip — one-time cascade (scoped; only under .authorized-dealer-attention-active) */
+@keyframes authorized-dealer-attention-pill {
+  0%,
+  100% {
+    transform: translateY(0);
+    border-color: rgb(255 255 255 / 0.12);
+    background-color: transparent;
+    color: rgb(255 255 255 / 0.5);
+    box-shadow: 0 0 #0000;
+  }
+  45%,
+  55% {
+    transform: translateY(-2px);
+    border-color: rgb(52 211 153 / 0.5);
+    background-color: rgb(52 211 153 / 0.1);
+    color: rgb(209 250 229);
+    box-shadow: 0 8px 24px rgb(16 185 129 / 0.12);
+  }
+}
+
+@keyframes authorized-dealer-attention-arrow {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+  45%,
+  55% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.authorized-dealer-attention-active .dealer-attention-pill {
+  animation: authorized-dealer-attention-pill 560ms ease-in-out;
+  animation-delay: var(--dealer-pill-delay, 0ms);
+}
+
+.authorized-dealer-attention-active .dealer-attention-arrow {
+  animation: authorized-dealer-attention-arrow 560ms ease-in-out;
+  animation-delay: var(--dealer-pill-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .authorized-dealer-attention-active .dealer-attention-pill,
+  .authorized-dealer-attention-active .dealer-attention-arrow {
+    animation: none;
   }
 }

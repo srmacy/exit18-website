@@ -1,28 +1,22 @@
-import Image from "next/image";
 import Link from "next/link";
 import { siteContent } from "@/content/siteContent";
 
 export function Hero() {
-  const { hero, assets } = siteContent;
+  const { hero } = siteContent;
 
   return (
-    <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden md:min-h-[700px]">
-      <div className="absolute inset-0">
-        <Image
-          src={assets.heroImageUrl}
-          alt={assets.heroImageAlt}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-      </div>
+    <section
+      className="relative flex w-full min-h-[100svh] flex-col justify-end overflow-hidden bg-cover bg-[center_right] md:min-h-[700px]"
+      style={{
+        backgroundImage: "url('/images/storefront.jpg')",
+      }}
+    >
       <div
-        className="absolute inset-0 bg-gradient-to-b from-[rgba(14,26,15,0.3)] from-0% via-[rgba(14,26,15,0.2)] via-[40%] to-[rgba(14,26,15,0.85)] to-100%"
+        className="absolute inset-0 bg-gradient-to-r from-[#0b2e1f]/95 via-[#0b2e1f]/70 to-transparent"
         aria-hidden
       />
 
-      <div className="relative z-[1] w-full px-5 pb-[14rem] pt-24 max-sm:pb-[16rem] md:px-[60px] md:pb-24 md:pt-28">
+      <div className="relative z-10 w-full px-5 pb-[14rem] pt-24 max-sm:pb-[16rem] md:px-[60px] md:pb-24 md:pt-28">
         <div className="mr-auto max-w-[900px] pb-4">
           <div className="mb-5 inline-flex items-center gap-2 rounded border border-exit-lime/30 bg-exit-lime/15 px-3 py-[5px] text-[11px] font-bold uppercase tracking-[2px] text-exit-lime">
             {hero.eyebrow}
@@ -54,13 +48,13 @@ export function Hero() {
           <div className="flex flex-wrap gap-3.5">
             <Link
               href={hero.primaryCta.href}
-              className="inline-flex items-center gap-2 rounded-full border-2 border-exit-green bg-exit-green px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white no-underline transition hover:-translate-y-px hover:border-exit-green-mid hover:bg-exit-green-mid"
+              className="inline-flex items-center gap-2 rounded-full border-2 border-exit-green bg-exit-green px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white no-underline transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-lg hover:border-exit-green-mid hover:bg-exit-green-mid active:scale-[0.98]"
             >
               {hero.primaryCta.label}
             </Link>
             <Link
               href={hero.secondaryCta.href}
-              className="inline-flex items-center gap-2 rounded-full border-2 border-white/35 bg-transparent px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-white no-underline transition hover:border-white/70 hover:bg-white/[0.08]"
+              className="inline-flex items-center gap-2 rounded-full border-2 border-white/35 bg-transparent px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-white no-underline transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-lg hover:border-white/70 hover:bg-white/[0.08] active:scale-[0.98]"
             >
               {hero.secondaryCta.label}
             </Link>
@@ -68,7 +62,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 grid grid-cols-2 divide-x divide-y divide-white/[0.08] border-t border-white/[0.12] bg-[rgba(14,26,15,0.7)] backdrop-blur-sm md:grid-cols-4">
+      <div className="absolute bottom-0 left-0 right-0 z-10 grid grid-cols-2 divide-x divide-y divide-white/[0.08] border-t border-white/[0.12] bg-[rgba(14,26,15,0.7)] backdrop-blur-sm md:grid-cols-4">
         {hero.stats.map((s) => (
           <div key={s.label} className="px-4 py-4 md:px-8">
             <div className="font-display mb-0.5 text-[28px] font-extrabold leading-none text-exit-lime">

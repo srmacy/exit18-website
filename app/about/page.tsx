@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { AboutClosingCta } from "@/components/about/AboutClosingCta";
 import { AboutHero } from "@/components/about/AboutHero";
 import { AboutLegacy } from "@/components/about/AboutLegacy";
+import { AboutStorySection } from "@/components/about/AboutStorySection";
 import { AboutTeamFeature } from "@/components/about/AboutTeamFeature";
 import { AboutWhy } from "@/components/about/AboutWhy";
 import { Footer } from "@/components/Footer";
@@ -20,6 +21,7 @@ export default function AboutPage() {
       <Navbar />
       <main className="pt-16">
         <AboutHero />
+        <AboutStorySection />
         <WaveDivider variant="warmToGreen" />
         <AboutLegacy />
         <WaveDivider variant="outOfGreen" />

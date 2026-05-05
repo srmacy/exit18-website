@@ -9,7 +9,7 @@ export function StoreShopByBrand() {
   return (
     <section
       id={storePage.hero.shopByBrandSectionId}
-      className="scroll-mt-28 border-b border-black/[0.05] bg-exit-off-white px-5 py-11 md:px-[60px] md:py-16"
+      className="scroll-mt-28 border-b border-black/[0.05] border-t border-white/5 bg-neutral-50 px-5 pb-11 pt-7 md:px-[60px] md:pb-16 md:pt-10"
       aria-labelledby="store-shop-brand-heading"
     >
       <div className="mx-auto max-w-[1200px]">
@@ -24,7 +24,7 @@ export function StoreShopByBrand() {
               key={card.id}
               className="group/card flex flex-col overflow-hidden rounded-2xl border border-exit-green/[0.12] bg-white shadow-[0_6px_22px_rgba(0,0,0,0.045)] ring-1 ring-transparent transition duration-[350ms] ease-out hover:-translate-y-1 hover:border-exit-green/50 hover:shadow-[0_18px_52px_rgba(26,92,42,0.14),0_0_0_1px_rgba(26,92,42,0.06)] hover:ring-2 hover:ring-exit-green/[0.12]"
             >
-              <div className="flex h-[68px] items-center justify-center border-b border-exit-green/[0.07] bg-gradient-to-b from-white to-[#fafaf8] px-4 py-2.5">
+              <div className="flex h-[68px] items-center justify-center border-b border-exit-green/[0.07] bg-white px-4 py-2.5">
                 {card.logoSrc ? (
                   <Image
                     src={card.logoSrc}
@@ -40,11 +40,35 @@ export function StoreShopByBrand() {
                 )}
               </div>
 
-              <div className="relative isolate aspect-[16/11] w-full shrink-0 overflow-hidden border-b border-exit-green/[0.06]">
+              <div className="relative isolate aspect-[16/11] w-full shrink-0 overflow-hidden border-b border-exit-green/[0.06] bg-white">
                 <StoreImageSlot
                   src={card.productImageSrc}
                   alt={`${card.name} product`}
                   fill
+                  neutralCardBackground
+                  containPadding={
+                    card.id === "echo" ||
+                    card.id === "toro" ||
+                    card.id === "honda" ||
+                    card.id === "ferris" ||
+                    card.id === "briggs"
+                  }
+                  containStretchFill={
+                    card.id === "toro" ||
+                    card.id === "honda" ||
+                    card.id === "ferris" ||
+                    card.id === "briggs"
+                  }
+                  containInsetClass={
+                    card.id === "honda" ? "p-5" : "p-6"
+                  }
+                  containStretchImageClass={
+                    card.id === "ferris"
+                      ? "h-full w-full object-contain p-4 scale-125"
+                      : card.id === "briggs"
+                        ? "h-full w-full object-contain p-4 scale-110"
+                        : undefined
+                  }
                   placeholderWatermark={card.name}
                   placeholderDensity="card"
                 />

@@ -17,6 +17,18 @@ export function StoreImageSlot({
   placeholderWatermark,
   /** Dense pattern + detail for storefront cards vs smaller product squares */
   placeholderDensity = "card",
+  /** `/store` brand cards — plain white behind images & placeholders */
+  neutralCardBackground,
+  /** Brand showcase logo-style assets: object-contain + padding (ECHO, TORO, HONDA, …) */
+  containPadding,
+  /** Full box fill for logo (TORO, HONDA, FERRIS showcase; keep false for Echo) */
+  containStretchFill,
+  /** Tailwind padding class inside contain mode; default p-6 */
+  containInsetClass = "p-6",
+  /** Extra Tailwind on stretched logos (ignored when containStretchImageClass is set) */
+  containExtraClass = "",
+  /** Full class override for stretched contain logos (Shop — Ferris, Briggs & Stratton, …) */
+  containStretchImageClass,
 }: {
   src: string;
   alt: string;
@@ -24,15 +36,22 @@ export function StoreImageSlot({
   fill?: boolean;
   placeholderWatermark?: string;
   placeholderDensity?: "card" | "product";
+  neutralCardBackground?: boolean;
+  containPadding?: boolean;
+  containStretchFill?: boolean;
+  containInsetClass?: string;
+  containExtraClass?: string;
+  containStretchImageClass?: string;
 }) {
   const hasImg = typeof src === "string" && src.length > 0;
   const isProduct = placeholderDensity === "product";
+  const neutralMatte = neutralCardBackground === true;
 
   if (hasImg && src.startsWith("/")) {
     if (fill) {
       return (
         <div className="absolute inset-0 overflow-hidden">
-          {!isProduct ? (
+          {!isProduct && !neutralMatte ? (
             <div
               className="pointer-events-none absolute inset-0 z-0 opacity-95"
               aria-hidden
@@ -48,7 +67,14 @@ export function StoreImageSlot({
             src={src}
             alt={alt}
             fill
-            className="relative z-[1] object-cover"
+            className={
+              containPadding
+                ? containStretchFill
+                  ? (containStretchImageClass ??
+                    `relative z-[1] h-full w-full object-contain ${containInsetClass}${containExtraClass ? ` ${containExtraClass}` : ""}`)
+                  : `relative z-[1] object-contain ${containInsetClass}`
+                : "relative z-[1] object-cover"
+            }
             sizes="(max-width: 1024px) 100vw, 45vw"
           />
         </div>
@@ -70,12 +96,12 @@ export function StoreImageSlot({
     <div
       className={
         fill
-          ? `absolute inset-0 z-[1] overflow-hidden ${isProduct ? "bg-[#f5f3ef]" : "bg-[#eef4ef]"}`
-          : `relative z-[1] flex min-h-[120px] w-full flex-col overflow-hidden ${isProduct ? "bg-[#f5f3ef]" : "bg-[#eef4ef]"} ${className ?? ""}`
+          ? `absolute inset-0 z-[1] overflow-hidden ${isProduct ? "bg-[#f5f3ef]" : neutralMatte ? "bg-white" : "bg-[#eef4ef]"}`
+          : `relative z-[1] flex min-h-[120px] w-full flex-col overflow-hidden ${isProduct ? "bg-[#f5f3ef]" : neutralMatte ? "bg-white" : "bg-[#eef4ef]"} ${className ?? ""}`
       }
       aria-label={alt || "Placeholder image"}
     >
-      {!isProduct && (
+      {!isProduct && !neutralMatte ? (
         <>
           {/* Base wash + fabric-like micro texture (brand showcase area only) */}
           <div
@@ -113,7 +139,7 @@ export function StoreImageSlot({
             }}
           />
         </>
-      )}
+      ) : null}
 
       {/* Product placeholder: striped pattern */}
       {isProduct ? (
@@ -136,14 +162,14 @@ export function StoreImageSlot({
         />
       ) : null}
       <div
-        className={`pointer-events-none absolute inset-[1px] rounded-[inherit] ring-1 ring-inset ring-exit-green/[0.08]`}
+        className={`pointer-events-none absolute inset-[1px] rounded-[inherit] ring-1 ring-inset ${neutralMatte ? "ring-black/[0.05]" : "ring-exit-green/[0.08]"}`}
         aria-hidden
       />
 
       <div className="relative flex h-full min-h-[inherit] flex-col items-center justify-center gap-3 px-4 py-6 text-center">
         {placeholderWatermark ? (
           <span
-            className="pointer-events-none select-none font-display text-[clamp(2.75rem,10vw,4.25rem)] font-black uppercase leading-none tracking-tight text-exit-green/[0.075]"
+            className={`pointer-events-none select-none font-display text-[clamp(2.75rem,10vw,4.25rem)] font-black uppercase leading-none tracking-tight ${neutralMatte ? "text-exit-dark/[0.06]" : "text-exit-green/[0.075]"}`}
             aria-hidden
           >
             {abbrevWatermark(placeholderWatermark)}
@@ -151,13 +177,17 @@ export function StoreImageSlot({
         ) : null}
 
         <div className="relative z-[1] flex flex-col items-center gap-1.5">
-          <span className="text-[9px] font-bold uppercase tracking-[0.42em] text-exit-green/55">
+          <span
+            className={`text-[9px] font-bold uppercase tracking-[0.42em] ${neutralMatte ? "text-exit-dark/40" : "text-exit-green/55"}`}
+          >
             {isProduct ? "Product photo" : "Showcase image"}
           </span>
           <span className="max-w-[12rem] text-[11px] font-medium leading-snug text-exit-dark/[0.42]">
             Photography placeholder · keeps layout until assets load
           </span>
-          <span className="mt-0.5 h-px w-10 bg-gradient-to-r from-transparent via-exit-green/35 to-transparent" />
+          <span
+            className={`mt-0.5 h-px w-10 ${neutralMatte ? "bg-black/12" : "bg-gradient-to-r from-transparent via-exit-green/35 to-transparent"}`}
+          />
         </div>
       </div>
     </div>

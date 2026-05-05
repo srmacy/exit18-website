@@ -54,7 +54,7 @@ export function StoreSplitHero() {
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover object-[56%_center] brightness-[1.1] contrast-[1.14] saturate-[1.16]"
+              className="object-cover object-center brightness-[1.1] contrast-[1.14] saturate-[1.16]"
             />
           </div>
         </div>

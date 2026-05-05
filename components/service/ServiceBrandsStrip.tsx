@@ -6,7 +6,7 @@ export function ServiceBrandsStrip() {
   return (
     <section
       aria-labelledby="service-brands-heading"
-      className="bg-exit-dark px-5 py-14 md:px-[60px] md:py-[3.75rem]"
+      className="bg-exit-dark px-5 pb-14 pt-16 md:px-[60px] md:pb-[3.75rem] md:pt-20"
     >
       <div className="mx-auto max-w-[1200px] text-center">
         <p className="mb-3 text-[11px] font-bold uppercase tracking-[2.5px] text-exit-lime/85">

@@ -1,10 +1,16 @@
 import Image from "next/image";
 import { siteContent } from "@/content/siteContent";
+import { publicImageExists } from "@/lib/publicImage";
 import { AboutPhotoPlaceholder } from "./AboutPhotoPlaceholder";
+
+/** Prefer full crew storefront shot, then cropped counter lineup. Placeholder only if neither file exists on disk. */
+const CREW_PHOTO_SOURCES = ["/images/about-crew.jpg", "/images/team-counter.jpg"] as const;
 
 export function AboutTeamFeature() {
   const { teamFeature: t } = siteContent.aboutPage;
-  const hasPhoto = typeof t.imageSrc === "string" && t.imageSrc.length > 0;
+  const crewPhotoSrc =
+    CREW_PHOTO_SOURCES.find((src) => publicImageExists(src)) ?? null;
+  const hasPhoto = crewPhotoSrc !== null;
 
   return (
     <section
@@ -28,11 +34,11 @@ export function AboutTeamFeature() {
           <div className="min-w-0 overflow-hidden rounded-[22px] border border-exit-dark/[0.07] shadow-[0_24px_64px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.04]">
             {hasPhoto ? (
               <Image
-                src={t.imageSrc as string}
+                src={crewPhotoSrc}
                 alt={t.imageAlt}
                 width={1400}
                 height={788}
-                className="aspect-[16/10] w-full object-cover lg:aspect-[21/11]"
+                className="aspect-[16/10] h-full w-full rounded-[inherit] object-cover object-center lg:aspect-[21/11]"
                 sizes="(max-width:1024px) 100vw, 50vw"
               />
             ) : (

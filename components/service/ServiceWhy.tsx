@@ -1,10 +1,7 @@
 import { siteContent } from "@/content/siteContent";
 
-const cardClass =
-  "group flex h-full flex-col rounded-2xl border border-exit-dark/[0.06] bg-white p-6 shadow-[0_4px_28px_rgba(0,0,0,0.05)] ring-1 ring-black/[0.03] transition duration-200 ease-out hover:-translate-y-1 hover:border-exit-green/18 hover:shadow-[0_18px_48px_rgba(0,0,0,0.1)] md:p-7";
-
 export function ServiceWhy() {
-  const { whyIntro, whyCards } = siteContent.servicePage;
+  const { whyIntro } = siteContent.servicePage;
 
   return (
     <section
@@ -26,28 +23,13 @@ export function ServiceWhy() {
               </span>
             ))}
           </h2>
+          <p className="mx-auto mt-7 max-w-3xl text-center leading-relaxed text-muted-foreground md:mt-8">
+            At Exit 18 Equipment, service isn&apos;t just repairs — it&apos;s making
+            sure your equipment works when you need it most. From routine maintenance
+            to full diagnostics, our team delivers straightforward answers, quality
+            work, and turnaround times that keep you moving.
+          </p>
         </header>
-
-        <ul className="grid list-none grid-cols-1 gap-5 p-0 sm:grid-cols-2 xl:grid-cols-5 xl:gap-5">
-          {whyCards.map((c) => (
-            <li key={c.title} className="min-w-0">
-              <article className={cardClass}>
-                <div
-                  className="mb-5 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-exit-green/22 bg-gradient-to-br from-[#153d24] to-[#0f2918] text-2xl shadow-sm transition duration-200 group-hover:-translate-y-0.5 group-hover:border-exit-lime/40 group-hover:shadow-md"
-                  aria-hidden
-                >
-                  {c.icon}
-                </div>
-                <h3 className="font-display mb-2.5 text-lg font-extrabold uppercase leading-snug tracking-tight text-exit-dark">
-                  {c.title}
-                </h3>
-                <p className="text-[14px] leading-relaxed tracking-tight text-exit-gray">
-                  {c.description}
-                </p>
-              </article>
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   );

@@ -21,14 +21,14 @@ export default function ServicePage() {
       <Navbar />
       <main className="pt-16">
         <ServiceHero />
-        <WaveDivider variant="warmToOff" />
+        <WaveDivider variant="greenToDark" />
+        <ServiceBrandsStrip />
+        <WaveDivider variant="darkToOff" />
         <ServiceWhy />
         <ServiceRequestSection />
         <WaveDivider variant="offTowarm" />
         <ServicePickup />
-        <WaveDivider variant="warmToDark" />
-        <ServiceBrandsStrip />
-        <WaveDivider variant="darkToGreen" />
+        <WaveDivider variant="warmToGreen" />
         <ServiceClosingCta />
       </main>
       <Footer />

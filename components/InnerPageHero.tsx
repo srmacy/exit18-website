@@ -8,6 +8,7 @@ export type InnerPageHeroProps = {
   subheadline: string;
   primaryCta?: Cta;
   secondaryCta?: Cta;
+  tertiaryCta?: Cta;
 };
 
 function HeroCta({ cta, primary }: { cta: Cta; primary: boolean }) {
@@ -39,6 +40,7 @@ export function InnerPageHero({
   subheadline,
   primaryCta,
   secondaryCta,
+  tertiaryCta,
 }: InnerPageHeroProps) {
   return (
     <section
@@ -58,10 +60,11 @@ export function InnerPageHero({
         <p className="mb-9 max-w-2xl text-[17px] leading-[1.62] text-exit-gray md:text-lg">
           {subheadline}
         </p>
-        {(primaryCta || secondaryCta) && (
+        {(primaryCta || secondaryCta || tertiaryCta) && (
           <div className="flex flex-col gap-3.5 sm:flex-row sm:flex-wrap sm:items-center">
             {primaryCta && <HeroCta cta={primaryCta} primary />}
             {secondaryCta && <HeroCta cta={secondaryCta} primary={false} />}
+            {tertiaryCta && <HeroCta cta={tertiaryCta} primary={false} />}
           </div>
         )}
       </div>

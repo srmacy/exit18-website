@@ -6,7 +6,11 @@ type Variant =
   | "warmToOff"
   | "offTowarm"
   | "warmToDark"
-  | "darkToGreen";
+  | "darkToGreen"
+  /** Service hero green → brands strip (dark) */
+  | "greenToDark"
+  /** Brands strip (dark) → off-white section */
+  | "darkToOff";
 
 const fills: Record<
   Variant,
@@ -59,6 +63,18 @@ const fills: Record<
     containerClass: "bg-exit-dark",
     pathD: "M0,0 C360,48 1080,48 1440,0 L1440,48 L0,48 Z",
     pathFill: "#1a5c2a",
+  },
+  /** Green hero band → dark strip (same geometry as warm → dark) */
+  greenToDark: {
+    containerClass: "bg-exit-green",
+    pathD: "M0,0 C360,48 1080,48 1440,0 L1440,48 L0,48 Z",
+    pathFill: "#0e1a0f",
+  },
+  /** Dark strip → off-white (#f4f2ee; same curve as warm → off) */
+  darkToOff: {
+    containerClass: "bg-exit-dark",
+    pathD: "M0,0 C360,48 1080,48 1440,0 L1440,48 L0,48 Z",
+    pathFill: "#f4f2ee",
   },
 };
 

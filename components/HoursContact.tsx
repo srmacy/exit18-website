@@ -57,7 +57,7 @@ export function HoursContact({ sectionId = "hours" }: HoursContactProps) {
                   {c.value}
                 </Link>
               ) : (
-                <div className="text-[15px] font-semibold text-white">
+                <div className="whitespace-pre-line text-[15px] font-semibold text-white">
                   {c.value}
                 </div>
               )}

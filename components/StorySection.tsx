@@ -1,20 +1,19 @@
-import Image from "next/image";
 import { siteContent } from "@/content/siteContent";
+import { StoryExpandableParagraphs } from "@/components/StoryExpandableParagraphs";
 
 export function StorySection() {
-  const { story, assets } = siteContent;
+  const { story } = siteContent;
+  const firstParagraph = story.paragraphs[0] ?? "";
+  const restParagraphs = story.paragraphs.slice(1);
 
   return (
     <section id="story" className="scroll-mt-24 bg-exit-warm px-5 py-16 md:px-[60px] md:py-20">
       <div className="mx-auto grid max-w-[1100px] grid-cols-1 items-center gap-12 md:grid-cols-2 md:gap-20">
-        <div className="relative overflow-hidden rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.15)]">
-          <Image
-            src={assets.heroImageUrl}
-            alt={assets.storyImageAlt}
-            width={900}
-            height={400}
-            className="h-[280px] w-full object-cover md:h-[400px]"
-            sizes="(max-width:768px) 100vw, 50vw"
+        <div className="relative h-[280px] overflow-hidden rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.15)] md:h-[400px]">
+          <img
+            src="/images/family-history.jpg"
+            alt="Exit 18 Equipment family history"
+            className="h-full w-full object-cover object-center rounded-[inherit]"
           />
           <div className="absolute -bottom-4 -right-4 flex h-[100px] w-[100px] flex-col items-center justify-center rounded-full border-4 border-exit-warm bg-exit-green pb-1 shadow-[0_8px_24px_rgba(0,0,0,0.2)]">
             <span className="font-display text-[28px] font-black leading-none text-white">
@@ -39,13 +38,10 @@ export function StorySection() {
               </span>
             ))}
           </h2>
-          {story.paragraphs.map((p, i) => (
-            <p
-              key={i}
-              className="mb-4 text-[15px] leading-[1.8] text-exit-gray [&_strong]:text-exit-dark"
-              dangerouslySetInnerHTML={{ __html: p }}
-            />
-          ))}
+          <StoryExpandableParagraphs
+            firstParagraph={firstParagraph}
+            restParagraphs={restParagraphs}
+          />
         </div>
       </div>
     </section>

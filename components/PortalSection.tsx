@@ -151,6 +151,9 @@ export function PortalSection() {
             />
             {portalPromo.tag}
           </div>
+          <div className="text-sm font-semibold tracking-wider uppercase text-emerald-200 mb-1">
+            New Feature
+          </div>
           <h2 className="font-display mb-5 text-[clamp(2rem,5vw,3.85rem)] font-black uppercase leading-[0.93] tracking-[-0.5px] text-white drop-shadow-[0_4px_28px_rgba(0,0,0,0.22)] md:mb-[22px]">
             {titles.map((line, i) => (
               <span
@@ -207,7 +210,7 @@ export function PortalSection() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <div className="relative translate-y-[6px]">
+            <div className="relative translate-y-[12px]">
               <div
                 className="pointer-events-none absolute bottom-0 left-1/2 z-0 h-6 w-40 -translate-x-1/2 rounded-full bg-black/10 blur-md"
                 aria-hidden
@@ -217,7 +220,7 @@ export function PortalSection() {
                 width={spotlight.width}
                 height={spotlight.height}
                 alt={spotlight.alt}
-                className="relative z-[1] block h-auto w-full rounded-2xl object-contain"
+                className="relative z-[1] origin-bottom block h-auto w-full scale-110 rounded-2xl object-contain md:scale-[1.15]"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 54vw, 820px"
                 priority
               />
