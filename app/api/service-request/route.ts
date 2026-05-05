@@ -1,9 +1,10 @@
-import type { ServiceRequest } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { notifyServiceStaff } from "@/lib/service-request-email";
+import {
+  notifyServiceStaffByPayload,
+  type ServiceRequestMailPayload,
+} from "@/lib/service-request-email";
 
-/** Persists to website DB only (isolated from maintenance portal — see README). */
+/** Email-only submissions for launch (no DATABASE_URL). Prisma/admin remain for future use. */
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as Record<string, unknown>;
@@ -28,41 +29,44 @@ export async function POST(request: Request) {
       );
     }
 
-    let created: ServiceRequest;
-    try {
-      created = await prisma.serviceRequest.create({
-        data: {
-          name,
-          phone,
-          email,
-          address,
-          brand,
-          model,
-          issue,
-          needsPickup,
-          bestTime,
-        },
-      });
-    } catch (e) {
-      console.error("[service-request] DB error", e);
+    const resendKey = process.env.RESEND_API_KEY?.trim();
+    if (!resendKey) {
       return NextResponse.json(
         {
           ok: false,
-          message:
-            "We could not save your request. Please call the shop or try again later.",
+          message: "Service request email is not configured.",
         },
         { status: 503 },
       );
     }
 
+    const payload: ServiceRequestMailPayload = {
+      name,
+      phone,
+      email,
+      address,
+      brand,
+      model,
+      issue,
+      needsPickup,
+      bestTime,
+    };
+
     try {
-      await notifyServiceStaff(created);
-    } catch (mailErr) {
-      console.error("[service-request] email failed after save", mailErr);
-      /* Request is still stored; user sees success — staff can use admin list */
+      await notifyServiceStaffByPayload(payload);
+    } catch (e) {
+      console.error("[service-request] email send failed", e);
+      return NextResponse.json(
+        {
+          ok: false,
+          message:
+            "We could not send your request. Please call the shop or try again later.",
+        },
+        { status: 503 },
+      );
     }
 
-    return NextResponse.json({ ok: true, id: created.id });
+    return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json(
       { ok: false, message: "Could not read request." },
