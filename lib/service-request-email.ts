@@ -65,6 +65,34 @@ function serviceRequestMailContent(
   return { subject, textBody, htmlBody };
 }
 
+/** Log Resend API error + routing context (never log API keys). */
+function logResendSendFailure(
+  context: {
+    from: string;
+    to: string[];
+    subjectSnippet: string;
+    error: {
+      message: string;
+      name: string;
+      statusCode: number | null;
+    };
+    responseHeaders: Record<string, string> | null;
+  },
+): void {
+  console.error(
+    JSON.stringify({
+      scope: "[service-request][resend]",
+      resendErrorName: context.error.name,
+      resendErrorMessage: context.error.message,
+      resendStatusCode: context.error.statusCode,
+      from: context.from,
+      to: context.to,
+      subjectSnippet: context.subjectSnippet,
+      hasResponseHeaders: context.responseHeaders != null,
+    }),
+  );
+}
+
 /** Requires non-empty RESEND_API_KEY (trimmed). @throws Error when Resend returns an error */
 async function dispatchServiceRequestParts(parts: {
   subject: string;
@@ -77,7 +105,7 @@ async function dispatchServiceRequestParts(parts: {
     process.env.EMAIL_FROM ?? "Exit 18 Equipment <noreply@exit18equipment.com>";
 
   const resend = new Resend(key);
-  const { error } = await resend.emails.send({
+  const result = await resend.emails.send({
     from,
     to: [to],
     subject: parts.subject,
@@ -85,8 +113,15 @@ async function dispatchServiceRequestParts(parts: {
     html: parts.htmlBody,
   });
 
-  if (error) {
-    throw new Error(error.message ?? "Resend rejected the message");
+  if (result.error) {
+    logResendSendFailure({
+      from,
+      to: [to],
+      subjectSnippet: parts.subject.slice(0, 160),
+      error: result.error,
+      responseHeaders: result.headers,
+    });
+    throw new Error(result.error.message ?? "Resend rejected the message");
   }
 }
 

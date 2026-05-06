@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import {
   notifyServiceStaffByPayload,
   type ServiceRequestMailPayload,
@@ -7,7 +6,16 @@ import {
 /** Email-only submissions for launch (no DATABASE_URL). Prisma/admin remain for future use. */
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as Record<string, unknown>;
+    let body: Record<string, unknown>;
+    try {
+      body = (await request.json()) as Record<string, unknown>;
+    } catch {
+      return Response.json(
+        { ok: false, message: "Could not read request." },
+        { status: 400 },
+      );
+    }
+
     const name = String(body.name ?? "").trim();
     const phone = String(body.phone ?? "").trim();
     const issue = String(body.issue ?? "").trim();
@@ -23,19 +31,16 @@ export async function POST(request: Request) {
       null;
 
     if (!name || !phone || !issue) {
-      return NextResponse.json(
-        { ok: false, message: "Name, phone, and issue description are required." },
+      return Response.json(
+        { ok: false, message: "Missing required fields." },
         { status: 400 },
       );
     }
 
     const resendKey = process.env.RESEND_API_KEY?.trim();
     if (!resendKey) {
-      return NextResponse.json(
-        {
-          ok: false,
-          message: "Service request email is not configured.",
-        },
+      return Response.json(
+        { ok: false, message: "Service request email is not configured." },
         { status: 503 },
       );
     }
@@ -55,8 +60,18 @@ export async function POST(request: Request) {
     try {
       await notifyServiceStaffByPayload(payload);
     } catch (e) {
-      console.error("[service-request] email send failed", e);
-      return NextResponse.json(
+      const errInfo =
+        e instanceof Error
+          ? { thrownName: e.name, thrownMessage: e.message }
+          : { thrown: String(e) };
+      console.error(
+        JSON.stringify({
+          scope: "[service-request]",
+          phase: "notifyServiceStaffByPayload",
+          ...errInfo,
+        }),
+      );
+      return Response.json(
         {
           ok: false,
           message:
@@ -66,11 +81,16 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json(
-      { ok: false, message: "Could not read request." },
-      { status: 400 },
+    return Response.json({ ok: true });
+  } catch (e) {
+    console.error(JSON.stringify({ scope: "[service-request]", phase: "unexpected", detail: String(e) }));
+    return Response.json(
+      {
+        ok: false,
+        message:
+          "We could not send your request. Please call the shop or try again later.",
+      },
+      { status: 503 },
     );
   }
 }
