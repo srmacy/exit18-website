@@ -18,9 +18,10 @@ export function ServiceRequestForm() {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const formEl = e.currentTarget;
     setErrorMsg("");
     setStatus("submitting");
-    const fd = new FormData(e.currentTarget);
+    const fd = new FormData(formEl);
     const data = {
       name: String(fd.get("name") ?? "").trim(),
       phone: String(fd.get("phone") ?? "").trim(),
@@ -33,27 +34,45 @@ export function ServiceRequestForm() {
       contactTime: String(fd.get("contactTime") ?? ""),
     };
 
+    let res: Response;
     try {
-      const res = await fetch("/api/service-request", {
+      res = await fetch("/api/service-request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      const json = (await res.json()) as { ok?: boolean; message?: string };
-
-      if (!res.ok || !json.ok) {
-        setStatus("error");
-        setErrorMsg(
-          (json as { message?: string }).message ?? "Something went wrong.",
-        );
-        return;
-      }
-      e.currentTarget.reset();
-      setStatus("success");
     } catch {
       setStatus("error");
       setErrorMsg("Network error — try again or call the shop.");
+      return;
     }
+
+    let json: { ok?: boolean; message?: string };
+    try {
+      json = (await res.json()) as { ok?: boolean; message?: string };
+    } catch {
+      setStatus("error");
+      setErrorMsg("Could not read server response.");
+      return;
+    }
+
+    if (process.env.NODE_ENV === "development") {
+      console.info("[service-request-form]", {
+        httpStatus: res.status,
+        resOk: res.ok,
+        apiOk: json.ok,
+        hasMessage: typeof json.message === "string",
+      });
+    }
+
+    if (!res.ok || json.ok !== true) {
+      setStatus("error");
+      setErrorMsg(json.message ?? "Something went wrong.");
+      return;
+    }
+
+    formEl.reset();
+    setStatus("success");
   }
 
   const inputClass =
