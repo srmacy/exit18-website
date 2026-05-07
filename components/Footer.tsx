@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { StoreAwareLink } from "@/components/StoreComingSoonProvider";
 import { siteContent } from "@/content/siteContent";
 
 export function Footer() {
@@ -11,16 +11,13 @@ export function Footer() {
       </p>
       <nav aria-label="Footer" className="flex flex-wrap gap-x-5 gap-y-2 md:gap-x-6">
         {footer.links.map((l) => (
-          <Link
+          <StoreAwareLink
             key={l.label + l.href}
             href={l.href}
             className="text-[11px] text-white/[0.28] no-underline transition hover:text-white/55"
-            {...(l.href.startsWith("http")
-              ? { target: "_blank", rel: "noopener noreferrer" }
-              : {})}
           >
             {l.label}
-          </Link>
+          </StoreAwareLink>
         ))}
       </nav>
     </footer>

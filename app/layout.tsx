@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Barlow, Barlow_Condensed, Caveat } from "next/font/google";
 import "./globals.css";
+import { StoreComingSoonProvider } from "@/components/StoreComingSoonProvider";
 import { siteContent } from "@/content/siteContent";
 
 const barlow = Barlow({
@@ -56,7 +57,9 @@ export default function RootLayout({
       lang="en"
       className={`${barlow.variable} ${barlowCondensed.variable} ${caveat.variable} h-full antialiased`}
     >
-      <body className="min-h-full font-sans">{children}</body>
+      <body className="min-h-full font-sans">
+        <StoreComingSoonProvider>{children}</StoreComingSoonProvider>
+      </body>
     </html>
   );
 }

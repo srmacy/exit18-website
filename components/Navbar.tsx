@@ -2,12 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import {
+  storeComingSoonPath,
+  useStoreComingSoon,
+} from "@/components/StoreComingSoonProvider";
 import { siteContent, type NavLink } from "@/content/siteContent";
 import { useState } from "react";
 
 export function Navbar() {
   const { navbar, branding } = siteContent;
   const [open, setOpen] = useState(false);
+  const { openStoreComingSoon } = useStoreComingSoon();
 
   return (
     <header className="fixed left-0 right-0 top-0 z-[100] border-b border-white/[0.08] bg-[rgba(14,26,15,0.92)] backdrop-blur-md">
@@ -70,23 +75,35 @@ export function Navbar() {
             const externalNewTab =
               link.href.startsWith("http") && link.sameTab !== true;
 
+            const textLinkClass =
+              "text-[13px] font-semibold uppercase tracking-[0.08em] text-white/70 no-underline transition-colors duration-200 ease-out hover:text-white";
+
+            const storeOpensModal = link.href === storeComingSoonPath;
+
+            const desktopClass =
+              link.variant === "cta"
+                ? "rounded-md bg-exit-lime px-[18px] py-2 text-[13px] font-bold uppercase tracking-wide text-exit-dark no-underline transition duration-200 ease-out hover:opacity-95"
+                : link.variant === "secondary"
+                  ? "rounded-md border border-emerald-500 px-[18px] py-2 text-[13px] font-bold uppercase tracking-wide text-emerald-400 no-underline transition-colors duration-200 ease-out hover:border-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300"
+                  : textLinkClass;
+
             return (
               <li key={link.label + link.href}>
-                <Link
-                  href={link.href}
-                  {...(externalNewTab
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                  className={
-                    link.variant === "cta"
-                      ? "rounded-md bg-exit-lime px-[18px] py-2 text-[13px] font-bold uppercase tracking-wide text-exit-dark no-underline transition duration-200 ease-out hover:opacity-95"
-                      : link.variant === "secondary"
-                        ? "rounded-md border border-emerald-500 px-[18px] py-2 text-[13px] font-bold uppercase tracking-wide text-emerald-400 no-underline transition-colors duration-200 ease-out hover:border-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300"
-                        : "text-[13px] font-semibold uppercase tracking-[0.08em] text-white/70 no-underline transition-colors duration-200 ease-out hover:text-white"
-                  }
-                >
-                  {link.label}
-                </Link>
+                {storeOpensModal ? (
+                  <button type="button" onClick={openStoreComingSoon} className={desktopClass}>
+                    {link.label}
+                  </button>
+                ) : (
+                  <Link
+                    href={link.href}
+                    {...(externalNewTab
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                    className={desktopClass}
+                  >
+                    {link.label}
+                  </Link>
+                )}
               </li>
             );
           })}
@@ -102,24 +119,40 @@ export function Navbar() {
             const externalNewTab =
               link.href.startsWith("http") && link.sameTab !== true;
 
+            const mobileClass =
+              link.variant === "cta"
+                ? "mt-2 flex min-h-11 items-center justify-center rounded-md bg-exit-lime px-4 py-2 text-center text-sm font-bold uppercase tracking-wide text-exit-dark no-underline transition duration-200 ease-out hover:opacity-95"
+                : link.variant === "secondary"
+                  ? "flex min-h-11 items-center justify-center rounded-md border border-emerald-500 px-4 py-2 text-center text-sm font-bold uppercase tracking-wide text-emerald-400 no-underline transition-colors duration-200 ease-out hover:bg-emerald-500/10 hover:text-emerald-300"
+                  : "flex min-h-11 items-center text-sm font-semibold uppercase tracking-wide text-white/80 no-underline transition-colors duration-200 ease-out hover:text-white";
+
+            const storeOpensModal = link.href === storeComingSoonPath;
+
             return (
               <li key={`m-${link.label}`}>
-                <Link
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  {...(externalNewTab
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                  className={
-                    link.variant === "cta"
-                      ? "mt-2 flex min-h-11 items-center justify-center rounded-md bg-exit-lime px-4 py-2 text-center text-sm font-bold uppercase tracking-wide text-exit-dark no-underline transition duration-200 ease-out hover:opacity-95"
-                      : link.variant === "secondary"
-                        ? "flex min-h-11 items-center justify-center rounded-md border border-emerald-500 px-4 py-2 text-center text-sm font-bold uppercase tracking-wide text-emerald-400 no-underline transition-colors duration-200 ease-out hover:bg-emerald-500/10 hover:text-emerald-300"
-                        : "flex min-h-11 items-center text-sm font-semibold uppercase tracking-wide text-white/80 no-underline transition-colors duration-200 ease-out hover:text-white"
-                  }
-                >
-                  {link.label}
-                </Link>
+                {storeOpensModal ? (
+                  <button
+                    type="button"
+                    className={`w-full ${mobileClass}`}
+                    onClick={() => {
+                      openStoreComingSoon();
+                      setOpen(false);
+                    }}
+                  >
+                    {link.label}
+                  </button>
+                ) : (
+                  <Link
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    {...(externalNewTab
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                    className={mobileClass}
+                  >
+                    {link.label}
+                  </Link>
+                )}
               </li>
             );
           })}

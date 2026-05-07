@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { StoreAwareLink } from "@/components/StoreComingSoonProvider";
 
 type Cta = { label: string; href: string };
 
@@ -28,9 +28,9 @@ function HeroCta({ cta, primary }: { cta: Cta; primary: boolean }) {
   }
 
   return (
-    <Link href={cta.href} className={primary ? primaryClass : secondaryClass}>
+    <StoreAwareLink href={cta.href} className={primary ? primaryClass : secondaryClass}>
       {cta.label}
-    </Link>
+    </StoreAwareLink>
   );
 }
 

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { StoreAwareLink } from "@/components/StoreComingSoonProvider";
 import type { OemEquipmentSecondaryBrandPageContent } from "@/content/oemEquipmentSecondaryBrands.types";
 import type { OemEquipmentBrandUiAssets } from "@/content/oemEquipmentBrandUi";
 import { publicImageExists } from "@/lib/publicImage";
@@ -38,19 +38,19 @@ export function OemEquipmentBrandHero({ content: p, ui }: Props) {
           {(p.primaryCta || p.secondaryCta || p.tertiaryCta) && (
             <div className="flex flex-col gap-3.5 sm:flex-row sm:flex-wrap sm:items-center">
               {p.primaryCta && (
-                <Link href={p.primaryCta.href} className={primaryClass}>
+                <StoreAwareLink href={p.primaryCta.href} className={primaryClass}>
                   {p.primaryCta.label}
-                </Link>
+                </StoreAwareLink>
               )}
               {p.secondaryCta && (
-                <Link href={p.secondaryCta.href} className={secondaryClass}>
+                <StoreAwareLink href={p.secondaryCta.href} className={secondaryClass}>
                   {p.secondaryCta.label}
-                </Link>
+                </StoreAwareLink>
               )}
               {p.tertiaryCta && (
-                <Link href={p.tertiaryCta.href} className={secondaryClass}>
+                <StoreAwareLink href={p.tertiaryCta.href} className={secondaryClass}>
                   {p.tertiaryCta.label}
-                </Link>
+                </StoreAwareLink>
               )}
             </div>
           )}
