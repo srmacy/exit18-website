@@ -4,6 +4,8 @@ type Variant =
   | "intoServices"
   | "warmToGreen"
   | "warmToOff"
+  /** Warm hero → white; subtle emerald-tinted swoosh (e.g. /equipment hub only) */
+  | "warmToEquipmentBrands"
   | "offTowarm"
   | "warmToDark"
   | "darkToGreen"
@@ -12,10 +14,17 @@ type Variant =
   /** Brands strip (dark) → off-white section */
   | "darkToOff";
 
-const fills: Record<
-  Variant,
-  { containerClass: string; pathD: string; pathFill: string }
-> = {
+type WaveFill =
+  | { pathFill: string }
+  | {
+      pathGradient: {
+        stops: readonly { offset: `${number}%` | string; color: string }[];
+      };
+    };
+
+type VariantConfig = { containerClass: string; pathD: string } & WaveFill;
+
+const fills: Record<Variant, VariantConfig> = {
   /** Dark bar above → green section */
   intoGreen: {
     containerClass: "bg-exit-dark",
@@ -33,6 +42,18 @@ const fills: Record<
     containerClass: "bg-exit-warm",
     pathD: "M0,0 C360,48 1080,48 1440,0 L1440,48 L0,48 Z",
     pathFill: "#f4f2ee",
+  },
+  /** Same curve as warmToOff; emerald tint → fade (equipment hub swoosh) */
+  warmToEquipmentBrands: {
+    containerClass: "border-t border-emerald-900/10 bg-exit-warm",
+    pathD: "M0,0 C360,48 1080,48 1440,0 L1440,48 L0,48 Z",
+    pathGradient: {
+      stops: [
+        { offset: "0%", color: "rgb(6 78 60 / 0.20)" },
+        { offset: "50%", color: "rgb(6 78 60 / 0.10)" },
+        { offset: "100%", color: "rgb(6 78 60 / 0)" },
+      ],
+    },
   },
   /** Off-white → warm (#faf7f2) */
   offTowarm: {
@@ -78,8 +99,11 @@ const fills: Record<
   },
 };
 
+const WARM_TO_EQUIPMENT_BRANDS_GRAD_ID = "wave-warmToEquipmentBrands";
+
 export function WaveDivider({ variant }: { variant: Variant }) {
   const c = fills[variant];
+
   return (
     <div
       className={`block w-full overflow-hidden leading-none ${c.containerClass}`}
@@ -91,7 +115,33 @@ export function WaveDivider({ variant }: { variant: Variant }) {
         preserveAspectRatio="none"
         className="block h-10 w-full md:h-12"
       >
-        <path d={c.pathD} fill={c.pathFill} />
+        {"pathGradient" in c ? (
+          <>
+            <defs>
+              <linearGradient
+                id={WARM_TO_EQUIPMENT_BRANDS_GRAD_ID}
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="48"
+                gradientUnits="userSpaceOnUse"
+              >
+                {c.pathGradient.stops.map((s) => (
+                  <stop
+                    key={`${s.offset}-${s.color}`}
+                    offset={s.offset}
+                    stopColor={s.color}
+                  />
+                ))}
+              </linearGradient>
+            </defs>
+            <path d={c.pathD} fill={`url(#${WARM_TO_EQUIPMENT_BRANDS_GRAD_ID})`} />
+          </>
+        ) : (
+          "pathFill" in c && (
+            <path d={c.pathD} fill={c.pathFill} />
+          )
+        )}
       </svg>
     </div>
   );

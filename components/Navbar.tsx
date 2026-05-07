@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { siteContent } from "@/content/siteContent";
+import { siteContent, type NavLink } from "@/content/siteContent";
 import { useState } from "react";
 
 export function Navbar() {
@@ -17,17 +17,17 @@ export function Navbar() {
       >
         <Link
           href="/"
-          className="flex h-full min-h-[44px] shrink-0 items-center pr-5 no-underline md:min-h-0 md:pr-8"
+          className="flex h-full min-h-[44px] shrink-0 items-center bg-transparent pr-5 no-underline md:min-h-0 md:pr-8"
           aria-label={branding.businessName}
         >
           <Image
-            src="/images/exit18-logo.png"
+            src={branding.logoUrl}
             alt={branding.logoAlt}
             width={560}
             height={160}
             priority
             sizes="(max-width: 768px) 52vw, 280px"
-            className="block h-[38px] w-auto max-w-[min(232px,calc(100vw-120px))] object-contain object-left mix-blend-lighten sm:h-[42px] sm:max-w-[264px] md:h-[44px] lg:h-11 lg:max-w-[292px]"
+            className="block h-[38px] w-auto max-h-[44px] max-w-[min(232px,calc(100vw-120px))] object-contain object-left sm:h-[42px] sm:max-w-[264px] md:h-[44px] lg:h-11 lg:max-w-[292px]"
           />
         </Link>
 
@@ -66,23 +66,30 @@ export function Navbar() {
         </button>
 
         <ul className="hidden list-none items-center gap-6 lg:flex xl:gap-8">
-          {navbar.links.map((link) => (
-            <li key={link.label + link.href}>
-              <Link
-                href={link.href}
-                {...(link.href.startsWith("http")
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-                className={
-                  link.variant === "cta"
-                    ? "rounded-md bg-exit-lime px-[18px] py-2 text-[13px] font-bold uppercase tracking-wide text-exit-dark no-underline transition duration-200 ease-out hover:opacity-95"
-                    : "text-[13px] font-semibold uppercase tracking-[0.08em] text-white/70 no-underline transition-colors duration-200 ease-out hover:text-white"
-                }
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
+          {navbar.links.map((link: NavLink) => {
+            const externalNewTab =
+              link.href.startsWith("http") && link.sameTab !== true;
+
+            return (
+              <li key={link.label + link.href}>
+                <Link
+                  href={link.href}
+                  {...(externalNewTab
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                  className={
+                    link.variant === "cta"
+                      ? "rounded-md bg-exit-lime px-[18px] py-2 text-[13px] font-bold uppercase tracking-wide text-exit-dark no-underline transition duration-200 ease-out hover:opacity-95"
+                      : link.variant === "secondary"
+                        ? "rounded-md border border-emerald-500 px-[18px] py-2 text-[13px] font-bold uppercase tracking-wide text-emerald-400 no-underline transition-colors duration-200 ease-out hover:border-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300"
+                        : "text-[13px] font-semibold uppercase tracking-[0.08em] text-white/70 no-underline transition-colors duration-200 ease-out hover:text-white"
+                  }
+                >
+                  {link.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </nav>
 
@@ -91,24 +98,31 @@ export function Navbar() {
         className={`border-t border-white/10 bg-[rgba(14,26,15,0.98)] px-4 py-3 lg:hidden ${open ? "block" : "hidden"}`}
       >
         <ul className="flex list-none flex-col gap-1">
-          {navbar.links.map((link) => (
-            <li key={`m-${link.label}`}>
-              <Link
-                href={link.href}
-                onClick={() => setOpen(false)}
-                {...(link.href.startsWith("http")
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-                className={
-                  link.variant === "cta"
-                    ? "mt-2 flex min-h-11 items-center justify-center rounded-md bg-exit-lime px-4 py-2 text-center text-sm font-bold uppercase tracking-wide text-exit-dark no-underline transition duration-200 ease-out hover:opacity-95"
-                    : "flex min-h-11 items-center text-sm font-semibold uppercase tracking-wide text-white/80 no-underline transition-colors duration-200 ease-out hover:text-white"
-                }
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
+          {navbar.links.map((link: NavLink) => {
+            const externalNewTab =
+              link.href.startsWith("http") && link.sameTab !== true;
+
+            return (
+              <li key={`m-${link.label}`}>
+                <Link
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  {...(externalNewTab
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                  className={
+                    link.variant === "cta"
+                      ? "mt-2 flex min-h-11 items-center justify-center rounded-md bg-exit-lime px-4 py-2 text-center text-sm font-bold uppercase tracking-wide text-exit-dark no-underline transition duration-200 ease-out hover:opacity-95"
+                      : link.variant === "secondary"
+                        ? "flex min-h-11 items-center justify-center rounded-md border border-emerald-500 px-4 py-2 text-center text-sm font-bold uppercase tracking-wide text-emerald-400 no-underline transition-colors duration-200 ease-out hover:bg-emerald-500/10 hover:text-emerald-300"
+                        : "flex min-h-11 items-center text-sm font-semibold uppercase tracking-wide text-white/80 no-underline transition-colors duration-200 ease-out hover:text-white"
+                  }
+                >
+                  {link.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </header>

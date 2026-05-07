@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { BrandsStrip } from "@/components/BrandsStrip";
+import { EquipmentHub } from "@/components/equipment/EquipmentHub";
 import { Footer } from "@/components/Footer";
 import { InnerPageHero } from "@/components/InnerPageHero";
 import { Navbar } from "@/components/Navbar";
@@ -25,8 +25,8 @@ export default function EquipmentPage() {
           primaryCta={hero.primaryCta}
           secondaryCta={hero.secondaryCta}
         />
-        <WaveDivider variant="warmToDark" />
-        <BrandsStrip />
+        <WaveDivider variant="warmToEquipmentBrands" />
+        <EquipmentHub />
       </main>
       <Footer />
     </>

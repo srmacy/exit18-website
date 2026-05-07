@@ -6,6 +6,7 @@ import { Navbar } from "@/components/Navbar";
 import { PortalSection } from "@/components/PortalSection";
 import { ServicesSection } from "@/components/ServicesSection";
 import { StorySection } from "@/components/StorySection";
+import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { WaveDivider } from "@/components/WaveDivider";
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
         <StorySection />
         <WaveDivider variant="intoServices" />
         <ServicesSection />
+        <TestimonialsSection />
         <HoursContact />
       </main>
       <Footer />

@@ -3,7 +3,13 @@
  * Tell Cursor/other AI: “Update Saturday hours in content/siteContent.ts” instead of hunting markup.
  */
 
-export type NavLink = { label: string; href: string; variant?: "cta" };
+export type NavLink = {
+  label: string;
+  href: string;
+  variant?: "cta" | "secondary";
+  /** External `http(s)` links open in a new tab unless this is true */
+  sameTab?: boolean;
+};
 
 export type HeroStatItem = { value: string; label: string };
 
@@ -35,6 +41,21 @@ export type ServiceCardContent = {
   description: string;
 };
 
+/** Homepage “Hear From Your Neighbors” customer quotes */
+export type HomeTestimonialEntry = {
+  name: string;
+  /** Display as filled stars — keep 5 for Google-style reviews */
+  ratingStars: number;
+  quote: string;
+};
+
+export type HomeTestimonialsSection = {
+  title: string;
+  items: readonly HomeTestimonialEntry[];
+  leaveReviewLabel: string;
+  leaveReviewHref: string;
+};
+
 export type HoursRow = {
   day: string;
   hours: string;
@@ -49,6 +70,24 @@ export type ContactRow = {
 };
 
 export type FooterNavLink = { label: string; href: string };
+
+export type EquipmentHubBrandCard = {
+  id: string;
+  name: string;
+  /** `/public` path — same assets as Store brand cards where applicable */
+  logoSrc: string;
+  description: string;
+  href: string;
+  ctaLabel: string;
+};
+
+/** Secondary row — logos only (no Explore), optional logo file */
+export type EquipmentHubEngineBrand = {
+  id: string;
+  name: string;
+  /** Empty = wordmark placeholder in UI */
+  logoSrc: string;
+};
 
 /** `/store` — brand storefront cards (Square links) */
 export type StorePageBrandCard = {
@@ -95,6 +134,12 @@ export const maintenancePortalUrl =
 export const maintenancePortalHostname =
   "exit18-maintenance-portal.vercel.app" as const;
 
+/**
+ * Clover-hosted online bill pay checkout (Pay Bill in site header).
+ */
+export const billPayUrl =
+  "https://www.clover.com/pay-widgets/a3f55a20-bd43-40a1-8b9a-c25b9152caf8" as const;
+
 export const siteContent = {
   seo: {
     title: "Exit 18 Equipment | Outdoor Power in Georgia, VT",
@@ -105,7 +150,7 @@ export const siteContent = {
 
   branding: {
     businessName: "Exit 18 Equipment",
-    logoUrl: "/images/exit18-logo.png",
+    logoUrl: "/images/exit18-logo-sign-only.png",
     logoAlt: "Exit 18 Equipment",
   },
 
@@ -138,6 +183,11 @@ export const siteContent = {
       { label: "Service & Repairs", href: "/service" },
       { label: "Store", href: "/store" },
       { label: "Contact", href: "/contact" },
+      {
+        label: "Pay Bill",
+        href: billPayUrl,
+        variant: "secondary",
+      },
       {
         label: "Parts Portal",
         href: maintenancePortalUrl,
@@ -274,6 +324,34 @@ export const siteContent = {
       },
     ] satisfies ServiceCardContent[],
   },
+
+  /** Homepage customer reviews (“Hear From Your Neighbors”) */
+  testimonials: {
+    title: "Hear From Your Neighbors",
+    items: [
+      {
+        name: "Jess T.",
+        ratingStars: 5,
+        quote:
+          "Hands down, they're the best at what they do! Everyone at Exit 18 Equipment is genuinely wonderful and so important to everyone in our community. They treat ALL their customers as family. They have saved our necks EVERYTIME we needed help! It's because of THEM that we're able to stay in business ourselves. Chad and I can't thank you guys enough for everything you have done and will do for us!",
+      },
+      {
+        name: "Joseph G.",
+        ratingStars: 5,
+        quote:
+          "Nothing but the best here, ran by an amazing family with lots of knowledge in everything outside and to boot great prices for the type of equipment sold. If your reading this you should pass on Lowes and Home Depot and get the personal service with real people with more than education on the equipment, but a passion for it and what they do there at Exit 18.",
+      },
+      {
+        name: "Chad W.",
+        ratingStars: 5,
+        quote:
+          "Great people and honest service. They know the equipment and use their brands themselves. I feel good support behind your equipment means just as much as the equipment itself.",
+      },
+    ] satisfies HomeTestimonialEntry[],
+    leaveReviewLabel: "Leave a Review →",
+    leaveReviewHref:
+      "https://www.google.com/maps/place/Exit+18+Equipment/@44.6996364,-73.1039344,845m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4cca0dea7be05f69:0x7142866f672d8f7c!8m2!3d44.6996364!4d-73.1013595!16s%2Fg%2F1tgcxp9d?entry=ttu&g_ep=EgoyMDI2MDUwMi4wIKXMDSoASAFQAw%3D%3D",
+  } satisfies HomeTestimonialsSection,
 
   hoursContact: {
     hoursTitle: "Store Hours",
@@ -587,17 +665,115 @@ export const siteContent = {
 
   equipmentPage: {
     seo: {
-      title: "Equipment",
+      title: "Equipment Sales & Service | Exit 18 Equipment",
       description:
-        "Outdoor power equipment — Honda, Ferris, Toro, Echo & Simplicity — at Exit 18 Equipment in Georgia, Vermont.",
+        "Honda, Ferris, Toro, Echo & more — outdoor power equipment sales and service for Vermont homeowners and contractors. Georgia, VT.",
     },
     hero: {
       eyebrow: "Authorized dealer",
-      headline: "Equipment",
+      headline: "Equipment Sales & Service",
       subheadline:
-        "We carry the brands we service — walk the floor with us and we'll match you to the right machine.",
-      primaryCta: { label: "What we carry", href: "/#services" },
-      secondaryCta: { label: "Call the shop", href: "tel:+18025242974" },
+        "From residential mowers and snow blowers to commercial zero-turns, generators, handheld equipment, parts, and service — Exit 18 Equipment helps Vermont homeowners, contractors, and property owners find the right machine and keep it running.",
+      primaryCta: { label: "Shop Online", href: "/store" },
+      secondaryCta: { label: "Request Service", href: "/service" },
+    },
+    brandsSection: {
+      title: "Brands We Carry",
+      intro:
+        "We stand behind the brands we sell, service, and support at the counter.",
+      cards: [
+        {
+          id: "honda",
+          name: "Honda",
+          logoSrc: "/images/honda-logo.png",
+          description: "Generators • Pumps • Tillers • Parts",
+          href: "/equipment/honda",
+          ctaLabel: "Explore Honda",
+        },
+        {
+          id: "ferris",
+          name: "Ferris",
+          logoSrc: "/images/ferris-logo.png",
+          description:
+            "Commercial Zero-Turns • Suspension Mowers • Parts",
+          href: "/equipment/ferris",
+          ctaLabel: "Explore Ferris",
+        },
+        {
+          id: "toro",
+          name: "Toro",
+          logoSrc: "/images/toro-logo.png",
+          description: "Mowers • Snow Blowers • Zero-Turns • Parts",
+          href: "/equipment/toro",
+          ctaLabel: "Explore Toro",
+        },
+        {
+          id: "echo",
+          name: "Echo",
+          logoSrc: "/images/echo-logo.png",
+          description:
+            "Chainsaws • Trimmers • Blowers • Handheld Tools",
+          href: "/equipment/echo",
+          ctaLabel: "Explore Echo",
+        },
+      ] satisfies EquipmentHubBrandCard[],
+      engineSupportHeading: "Engine & Service Support",
+      engineSupportTagline: "Engines • Parts • Service Support",
+      engineSupportBrands: [
+        {
+          id: "briggs",
+          name: "Briggs & Stratton",
+          logoSrc: "/images/briggs-stratton-logo.png",
+        },
+        {
+          id: "kawasaki",
+          name: "Kawasaki",
+          logoSrc: "/images/kawasaki-logo.jpg",
+        },
+        {
+          id: "kohler",
+          name: "Kohler",
+          logoSrc: "/images/kohler-logo.png",
+        },
+        {
+          id: "simplicity-engines",
+          name: "Simplicity",
+          logoSrc: "/images/simplicity-logo.png",
+        },
+      ] satisfies EquipmentHubEngineBrand[],
+    },
+    simplicity: {
+      title: "Simplicity tractors — service after production",
+      body:
+        "You'll spot Simplicity in our engine and service lineup for parts knowledge and continuity of care — but Simplicity tractors are no longer produced. Exit 18 Equipment still services and supports those machines wherever parts and service information remain available.",
+      ctaLabel: "Request Service",
+      ctaHref: "/service",
+    },
+    helpWith: {
+      sellTitle: "What We Sell",
+      sellBullets: [
+        "Lawn mowers and zero-turns",
+        "Snow blowers and seasonal equipment",
+        "Generators, pumps, and tillers",
+        "Chainsaws, trimmers, blowers, and handheld tools",
+        "Parts, accessories, oil, filters, belts, and blades",
+      ],
+      serviceTitle: "What We Service",
+      serviceBullets: [
+        "Lawn mower repair and maintenance",
+        "Snow blower service",
+        "Generator tune-ups",
+        "Small engine diagnostics",
+        "Parts lookup and seasonal maintenance support",
+      ],
+    },
+    finalCta: {
+      headline: "Not sure what you need?",
+      body:
+        "Stop in, call the shop, or send a service request — we'll help match you with the right equipment, part, or repair path.",
+      callLabel: "Call the Shop",
+      serviceLabel: "Request Service",
+      serviceHref: "/service",
     },
   },
 
@@ -746,7 +922,7 @@ export const siteContent = {
         squareStorefrontUrl:
           "https://PLACEHOLDER_REPLACE.square.site/exit18-brand-toro",
         logoSrc: "",
-        productImageSrc: "/images/toro-hero.png",
+        productImageSrc: "/images/toro-logo.png",
       },
       {
         id: "honda",
