@@ -27,6 +27,17 @@ const caveat = Caveat({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteContent.seo.siteUrl),
+  icons: {
+    icon: [
+      {
+        url: "/favicon.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+    ],
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
   title: {
     default: siteContent.seo.title,
     template: `%s | ${siteContent.branding.businessName}`,
