@@ -126,13 +126,13 @@ export type AboutWhyCard = {
   description: string;
 };
 
-/** Single source for Parts / Maintenance Portal links site-wide. Swap for production host when ready (e.g. portal.exit18equipment.com). */
+/** Single source for Parts / Maintenance Portal links site-wide */
 export const maintenancePortalUrl =
-  "https://exit18-maintenance-portal.vercel.app" as const;
+  "https://app.mybenchline.com" as const;
 
 /** Hostname only — contact strip display */
 export const maintenancePortalHostname =
-  "exit18-maintenance-portal.vercel.app" as const;
+  "app.mybenchline.com" as const;
 
 /**
  * Clover-hosted online bill pay checkout (Pay Bill in site header).
