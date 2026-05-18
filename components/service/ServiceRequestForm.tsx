@@ -3,6 +3,12 @@
 import { useState } from "react";
 import { siteContent } from "@/content/siteContent";
 
+/** Set once per mount — used server-side to reject instant bot posts. */
+function useFormStartedAt() {
+  const [formStartedAt] = useState(() => Date.now());
+  return formStartedAt;
+}
+
 type Status = "idle" | "submitting" | "success" | "error";
 
 export function ServiceRequestForm() {
@@ -13,6 +19,7 @@ export function ServiceRequestForm() {
     requestSection,
   } = siteContent.servicePage;
 
+  const formStartedAt = useFormStartedAt();
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -32,6 +39,8 @@ export function ServiceRequestForm() {
       issue: String(fd.get("issue") ?? "").trim(),
       pickup: String(fd.get("pickup") ?? "no"),
       contactTime: String(fd.get("contactTime") ?? ""),
+      companyWebsite: String(fd.get("companyWebsite") ?? "").trim(),
+      formStartedAt,
     };
 
     let res: Response;
@@ -97,7 +106,24 @@ export function ServiceRequestForm() {
           {formCopy.successMessage}
         </p>
       ) : (
-        <form onSubmit={onSubmit} className="mt-8 space-y-5">
+        <form
+          onSubmit={onSubmit}
+          className="relative mt-8 space-y-5"
+        >
+          <input type="hidden" name="formStartedAt" value={String(formStartedAt)} />
+          <div
+            className="pointer-events-none absolute -left-[9999px] top-0 h-px w-px overflow-hidden opacity-0"
+            aria-hidden="true"
+          >
+            <label htmlFor="sr-company-website">Company website</label>
+            <input
+              id="sr-company-website"
+              name="companyWebsite"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
           <div className="grid gap-5 sm:grid-cols-2">
             <div className="sm:col-span-2">
               <label className={labelClass} htmlFor="sr-name">

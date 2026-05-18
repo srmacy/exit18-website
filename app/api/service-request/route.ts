@@ -2,6 +2,14 @@ import {
   notifyServiceStaffByPayload,
   type ServiceRequestMailPayload,
 } from "@/lib/service-request-email";
+import {
+  getFieldValidationMessage,
+  logRejectedSubmission,
+  silentSpamContent,
+  silentSpamEarly,
+} from "@/lib/service-request-antispam";
+
+const fakeSuccess = () => Response.json({ ok: true });
 
 /** Email-only submissions for launch (no DATABASE_URL). Prisma/admin remain for future use. */
 export async function POST(request: Request) {
@@ -14,6 +22,12 @@ export async function POST(request: Request) {
         { ok: false, message: "Could not read request." },
         { status: 400 },
       );
+    }
+
+    const earlySpam = silentSpamEarly(body);
+    if (earlySpam) {
+      logRejectedSubmission(earlySpam);
+      return fakeSuccess();
     }
 
     const name = String(body.name ?? "").trim();
@@ -33,6 +47,31 @@ export async function POST(request: Request) {
     if (!name || !phone || !issue) {
       return Response.json(
         { ok: false, message: "Missing required fields." },
+        { status: 400 },
+      );
+    }
+
+    const contentSpam = silentSpamContent({
+      name,
+      phone,
+      issue,
+      email: email ?? "",
+      address: address ?? "",
+      model: model ?? "",
+      brand,
+    });
+    if (contentSpam) {
+      logRejectedSubmission(contentSpam, {
+        nameLen: name.length,
+        issueLen: issue.length,
+      });
+      return fakeSuccess();
+    }
+
+    const validationMsg = getFieldValidationMessage(name, phone, issue);
+    if (validationMsg) {
+      return Response.json(
+        { ok: false, message: validationMsg },
         { status: 400 },
       );
     }
@@ -83,7 +122,13 @@ export async function POST(request: Request) {
 
     return Response.json({ ok: true });
   } catch (e) {
-    console.error(JSON.stringify({ scope: "[service-request]", phase: "unexpected", detail: String(e) }));
+    console.error(
+      JSON.stringify({
+        scope: "[service-request]",
+        phase: "unexpected",
+        detail: String(e),
+      }),
+    );
     return Response.json(
       {
         ok: false,
