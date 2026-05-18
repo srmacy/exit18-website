@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Barlow, Barlow_Condensed, Caveat } from "next/font/google";
 import "./globals.css";
+import { MemorialDay2026ClosureModal } from "@/components/MemorialDay2026ClosureModal";
 import { StoreComingSoonProvider } from "@/components/StoreComingSoonProvider";
 import { siteContent } from "@/content/siteContent";
 
@@ -70,6 +71,7 @@ export default function RootLayout({
     >
       <body className="min-h-full font-sans">
         <StoreComingSoonProvider>{children}</StoreComingSoonProvider>
+        <MemorialDay2026ClosureModal />
       </body>
     </html>
   );
