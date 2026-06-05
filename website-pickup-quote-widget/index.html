@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Exit 18 Pickup & Delivery Estimate</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="pickup-estimator" aria-labelledby="estimator-title">
+        <div class="estimator-hero" aria-hidden="true"></div>
+        <div class="estimator-wrap">
+          <div class="estimator-copy">
+            <img class="site-logo" src="./assets/exit18-logo-sign-only.png" alt="Exit 18 Equipment" />
+            <p class="eyebrow">Pickup & delivery estimate</p>
+            <h1 id="estimator-title">Get a quick travel quote before you call.</h1>
+            <p class="intro">
+              Enter your address, choose the service you need, and we will estimate pickup and delivery using Google driving time from our shop in Georgia, Vermont.
+            </p>
+            <div class="rate-strip" aria-label="Pricing rule">
+              <span><strong>$75</strong> minimum</span>
+              <span><strong>$85</strong> per travel hour</span>
+              <span><strong>Google</strong> drive time</span>
+            </div>
+          </div>
+
+          <form class="quote-card" id="quote-form">
+            <div class="field-group">
+              <label for="customer-address">Your pickup address</label>
+              <div class="address-row">
+                <input id="customer-address" name="address" autocomplete="street-address" placeholder="Street address, town, state" required />
+                <button class="primary-button" type="submit">Get estimate</button>
+              </div>
+            </div>
+
+            <fieldset class="trip-chooser">
+              <legend>What do you need?</legend>
+              <div class="trip-buttons" role="radiogroup" aria-label="Trip type">
+                <button type="button" class="trip-button is-selected" data-trip="pickup-return" aria-pressed="true">
+                  <span>Pickup + return</span>
+                  <small>Two round trips</small>
+                </button>
+                <button type="button" class="trip-button" data-trip="pickup-only" aria-pressed="false">
+                  <span>Pickup only</span>
+                  <small>One round trip</small>
+                </button>
+                <button type="button" class="trip-button" data-trip="delivery-only" aria-pressed="false">
+                  <span>Delivery only</span>
+                  <small>One round trip</small>
+                </button>
+              </div>
+            </fieldset>
+
+            <div class="result-panel" id="result-panel" aria-live="polite">
+              <div>
+                <span class="result-label">Estimated quote</span>
+                <strong class="result-price" id="quote-price">$--</strong>
+              </div>
+              <div class="route-facts">
+                <span id="drive-time">Drive time: --</span>
+                <span id="drive-distance">Distance: --</span>
+              </div>
+            </div>
+
+            <p class="status-line" id="status-line">
+              This is an estimate for travel only. Final service and repair charges are separate.
+            </p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <script src="./quote-widget.js"></script>
+  </body>
+</html>

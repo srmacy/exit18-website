@@ -631,10 +631,14 @@ export const siteContent = {
         },
       ],
       estimator: {
-        badge: "Coming soon",
-        title: "Pickup & delivery price estimator",
-        body:
-          "Instant ballpark pricing from your address — know the fee before you schedule. Shipping this module next.",
+        title: "Get a quick travel quote",
+        intro:
+          "Enter your address, choose the service you need, and we will estimate pickup and delivery using Google driving time from our shop in Georgia, Vermont.",
+        rateStrip: [
+          "$75 minimum",
+          "$85 per travel hour",
+          "Google drive time",
+        ],
       },
     },
 

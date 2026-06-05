@@ -1,3 +1,4 @@
+import { PickupDeliveryEstimator } from "@/components/service/PickupDeliveryEstimator";
 import { siteContent } from "@/content/siteContent";
 
 export function ServicePickup() {
@@ -50,24 +51,7 @@ export function ServicePickup() {
           </div>
 
           <div className="min-w-0 lg:col-span-6">
-            <div className="relative overflow-hidden rounded-2xl border-2 border-dashed border-exit-green/35 bg-exit-off-white/90 p-8 shadow-inner md:p-10">
-              <span className="absolute right-4 top-4 rounded-full bg-exit-lime/25 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-exit-dark">
-                {s.estimator.badge}
-              </span>
-              <div className="flex items-center gap-4">
-                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-exit-green text-2xl text-white shadow-md" aria-hidden>
-                  🚛
-                </span>
-                <div>
-                  <p className="font-display text-[1.15rem] font-black uppercase leading-tight text-exit-dark">
-                    {s.estimator.title}
-                  </p>
-                </div>
-              </div>
-              <p className="mt-6 text-[15px] leading-relaxed text-exit-gray">
-                {s.estimator.body}
-              </p>
-            </div>
+            <PickupDeliveryEstimator />
           </div>
         </div>
       </div>
