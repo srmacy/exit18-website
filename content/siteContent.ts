@@ -156,8 +156,8 @@ export const siteContent = {
 
   /** Shop phone & email — used on /service and tel: links */
   contact: {
-    phoneDisplay: "(802) 524-2974",
-    phoneTel: "+18025242974",
+    phoneDisplay: "(802) 802-2667",
+    phoneTel: "+18028022667",
     /** Update when live — form API placeholder does not send mail yet */
     serviceEmail: "service@exit18equipment.com",
   },
@@ -491,7 +491,7 @@ export const siteContent = {
     seo: {
       title: "Service & Repairs | Exit 18 Equipment Georgia, VT",
       description:
-        "Lawn mower repair, snow blower service, generator tune-ups, and small engine repair in Georgia, Vermont. Factory-trained authorized service for Toro, Echo, Ferris, Honda, Simplicity & common engines. Call (802) 524-2974.",
+        "Lawn mower repair, snow blower service, generator tune-ups, and small engine repair in Georgia, Vermont. Factory-trained authorized service for Toro, Echo, Ferris, Honda, Simplicity & common engines. Call (802) 802-2667.",
     },
 
     hero: {
@@ -553,7 +553,7 @@ export const siteContent = {
     requestSection: {
       infoHeadline: "Need service? We're here to help.",
       infoIntro:
-        "To schedule: call (802) 524-2974, email us via the contact page, or stop in Tuesday–Friday 8:00–5:00 and Saturday 8:00–12:00 (closed Sundays & Mondays). Scheduling in advance is appreciated — especially during busy spring. When you reach out, your work order enters our shop queue that same day, and we'll arrange a convenient time for drop-off or pickup.",
+        "To schedule: call (802) 802-2667, email us via the contact page, or stop in Tuesday–Friday 8:00–5:00 and Saturday 8:00–12:00 (closed Sundays & Mondays). Scheduling in advance is appreciated — especially during busy spring. When you reach out, your work order enters our shop queue that same day, and we'll arrange a convenient time for drop-off or pickup.",
       bullets: [
         "Current shop labor rate: $98/hr",
         "Pickup / delivery: $85/hr travel time · $75 minimum",
@@ -1062,7 +1062,7 @@ export const siteContent = {
       headline: "Contact",
       subheadline:
         "Reach us during shop hours by phone — or email for equipment and service questions. Visit: 27 Morse Drive, Georgia, Vermont — just off Route 7 past the park and ride.",
-      primaryCta: { label: "Call (802) 524-2974", href: "tel:+18025242974" },
+      primaryCta: { label: "Call (802) 802-2667", href: "tel:+18028022667" },
       secondaryCta: {
         label: "Email us",
         href: "mailto:service@exit18equipment.com",

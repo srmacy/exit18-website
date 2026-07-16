@@ -1,24 +1,23 @@
 "use client";
 
 /**
- * TEMPORARY — Memorial Day weekend 2026 closure notice.
- * Delete this file and remove `<MemorialDay2026ClosureModal />` from `app/layout.tsx` when no longer needed.
+ * TEMPORARY — Annual inventory closure notice (through July 20, 2026).
+ * Delete this file and remove `<InventoryClosureModal />` from `app/layout.tsx` when no longer needed.
  */
 
 import { useCallback, useEffect, useState } from "react";
 
-const MEMORIAL_DAY_2026_CUTOFF_MS = Date.parse(
-  "2026-05-26T00:00:00-04:00",
-);
-const SESSION_STORAGE_KEY = "memorial-day-2026-closure-dismissed";
+/** Active immediately through end of July 20 (ET); stops at midnight July 21. */
+const INVENTORY_CLOSURE_END_MS = Date.parse("2026-07-21T00:00:00-04:00");
+const SESSION_STORAGE_KEY = "inventory-closure-2026-dismissed";
 
-export function MemorialDay2026ClosureModal() {
+export function InventoryClosureModal() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (
-      Number.isNaN(MEMORIAL_DAY_2026_CUTOFF_MS) ||
-      Date.now() >= MEMORIAL_DAY_2026_CUTOFF_MS
+      Number.isNaN(INVENTORY_CLOSURE_END_MS) ||
+      Date.now() >= INVENTORY_CLOSURE_END_MS
     ) {
       return;
     }
@@ -60,7 +59,7 @@ export function MemorialDay2026ClosureModal() {
   return (
     <>
       <style>{`
-        @keyframes memorial-mday-2026-title-in {
+        @keyframes inventory-closure-2026-title-in {
           from {
             opacity: 0;
             transform: scale(0.98);
@@ -70,12 +69,12 @@ export function MemorialDay2026ClosureModal() {
             transform: scale(1);
           }
         }
-        .memorial-mday-2026-title-in {
-          animation: memorial-mday-2026-title-in 280ms ease-out both;
+        .inventory-closure-2026-title-in {
+          animation: inventory-closure-2026-title-in 280ms ease-out both;
           transform-origin: left center;
         }
         @media (prefers-reduced-motion: reduce) {
-          .memorial-mday-2026-title-in {
+          .inventory-closure-2026-title-in {
             animation: none;
           }
         }
@@ -90,38 +89,38 @@ export function MemorialDay2026ClosureModal() {
         <div
           role="dialog"
           aria-modal="true"
-          aria-labelledby="memorial-day-2026-closure-title"
+          aria-labelledby="inventory-closure-2026-title"
           className="relative z-[1] mx-auto w-full max-w-[min(100%,28rem)] rounded-2xl border border-exit-green/15 bg-white p-6 shadow-[0_24px_80px_rgba(14,26,15,0.18)] ring-1 ring-exit-green/10 sm:p-8"
         >
           <div
             className="mb-4 h-1 w-12 rounded-full bg-exit-green"
             aria-hidden
           />
-          <div className="memorial-mday-2026-title-in flex flex-wrap items-center gap-x-2.5 gap-y-1">
+          <div className="inventory-closure-2026-title-in flex flex-wrap items-center gap-x-2.5 gap-y-1">
             <span
               className="shrink-0 select-none text-[1.125rem] leading-none sm:text-[1.25rem]"
               aria-hidden
             >
-              🇺🇸
+              📋
             </span>
             <h2
-              id="memorial-day-2026-closure-title"
+              id="inventory-closure-2026-title"
               className="font-display min-w-0 flex-1 text-xl font-black uppercase tracking-[0.06em] text-exit-dark sm:text-2xl"
             >
-              Memorial Day Weekend Hours
+              Inventory Closure
             </h2>
           </div>
           <div className="mt-4 space-y-3 text-[15px] leading-relaxed text-exit-gray">
             <p>
-              Exit 18 Equipment will be closed Saturday, May 23 through Monday,
-              May 25 in observance of Memorial Day weekend.
+              Exit 18 Equipment will be closed Thursday, July 17 through Sunday,
+              July 20 for our annual inventory count.
             </p>
             <p>
-              We will reopen with normal business hours on Tuesday, May 26.
+              We will reopen with normal business hours on Monday, July 21.
             </p>
             <p>
-              Thank you for your business, and we wish everyone a safe and
-              enjoyable holiday weekend.
+              Thank you for your patience while we complete this important yearly
+              process.
             </p>
           </div>
           <div className="mt-8 flex justify-end sm:mt-9">

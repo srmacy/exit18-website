@@ -251,7 +251,7 @@ export const equipmentToroPage: OemEquipmentSecondaryBrandPageContent = {
     ],
     shopLeadIn: "Shop Toro online or in store — plan pickup in Georgia",
     shopDetail:
-      "Browse Toro equipment online via our storefront, confirm models, coordinate pickup at 27 Morse Drive — just off Route 7 past the park and ride. Some higher-tier packages require showroom consultation per manufacturer protocols — phone (802) 524-2974 for availability nuance.",
+      "Browse Toro equipment online via our storefront, confirm models, coordinate pickup at 27 Morse Drive — just off Route 7 past the park and ride. Some higher-tier packages require showroom consultation per manufacturer protocols — phone (802) 802-2667 for availability nuance.",
   },
   faqs: [
     {
