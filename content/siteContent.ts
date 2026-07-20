@@ -128,11 +128,11 @@ export type AboutWhyCard = {
 
 /** Single source for Parts / Maintenance Portal links site-wide */
 export const maintenancePortalUrl =
-  "https://app.mybenchline.com" as const;
+  "https://maintenance.mybenchline.com/" as const;
 
 /** Hostname only — contact strip display */
 export const maintenancePortalHostname =
-  "app.mybenchline.com" as const;
+  "maintenance.mybenchline.com" as const;
 
 /**
  * Clover-hosted online bill pay checkout (Pay Bill in site header).
