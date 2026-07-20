@@ -1,4 +1,5 @@
 import { BrandsStrip } from "@/components/BrandsStrip";
+import { CustomerToolsHelpSection } from "@/components/CustomerToolsHelpSection";
 import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import { HoursContact } from "@/components/HoursContact";
@@ -15,6 +16,7 @@ export default function Home() {
       <Navbar />
       <main className="scroll-mt-24 pt-16">
         <Hero />
+        <CustomerToolsHelpSection />
         <BrandsStrip />
         <WaveDivider variant="intoGreen" />
         <PortalSection />
