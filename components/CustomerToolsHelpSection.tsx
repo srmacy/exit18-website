@@ -15,18 +15,22 @@ const COMING_SOON = [
   {
     title: "Maintenance Portal",
     description: "Track maintenance plans and equipment records online.",
+    icon: CalendarCheckIcon,
   },
   {
     title: "Parts Request",
     description: "Request the parts you need without a phone call.",
+    icon: PackageGearIcon,
   },
   {
     title: "Repair Status",
     description: "Check where your equipment is in the service queue.",
+    icon: StatusListIcon,
   },
   {
     title: "Estimate Approval",
     description: "Review and approve repair estimates from your phone.",
+    icon: FileCheckIcon,
   },
 ] as const;
 
@@ -131,22 +135,137 @@ export function CustomerToolsHelpSection() {
                 key={tool.title}
                 className="rounded-2xl border border-dashed border-[rgba(16,130,71,0.18)] bg-white/80 px-5 py-5"
               >
-                <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="font-display text-[16px] font-extrabold uppercase tracking-tight text-[#0b2114]">
-                    {tool.title}
-                  </h3>
-                  <span className="rounded-full border border-[#159451]/25 bg-[#159451]/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#08763f]">
-                    Coming Soon
+                <div className="flex items-start gap-3.5">
+                  <span
+                    className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-[11px] border border-[rgba(16,185,129,0.14)] bg-[linear-gradient(145deg,rgba(16,185,129,0.14),rgba(16,185,129,0.06))] text-[#0f5c34]"
+                    aria-hidden
+                  >
+                    <tool.icon />
                   </span>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="font-display text-[16px] font-extrabold uppercase tracking-tight text-[#0b2114]">
+                        {tool.title}
+                      </h3>
+                      <span className="rounded-full border border-[#159451]/25 bg-[#159451]/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#08763f]">
+                        Coming Soon
+                      </span>
+                    </div>
+                    <p className="mt-2 text-[13px] leading-relaxed text-[#536159]">
+                      {tool.description}
+                    </p>
+                  </div>
                 </div>
-                <p className="mt-2 text-[13px] leading-relaxed text-[#536159]">
-                  {tool.description}
-                </p>
               </div>
             ))}
           </div>
         </MoreWaysAccordion>
       </div>
     </section>
+  );
+}
+
+function CalendarCheckIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <rect
+        x="3.5"
+        y="5"
+        width="17"
+        height="15.5"
+        rx="2.5"
+        stroke="currentColor"
+        strokeWidth="1.85"
+      />
+      <path
+        d="M8 3.5v3M16 3.5v3M3.5 9.5h17"
+        stroke="currentColor"
+        strokeWidth="1.85"
+        strokeLinecap="round"
+      />
+      <path
+        d="m8.8 14.1 2.1 2.1 4.2-4.3"
+        stroke="currentColor"
+        strokeWidth="1.85"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function PackageGearIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path
+        d="m12 3.8 7 3.5v9.4l-7 3.5-7-3.5V7.3l7-3.5Z"
+        stroke="currentColor"
+        strokeWidth="1.85"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 7.2v5.1M5.2 7.1 12 10.5l6.8-3.4"
+        stroke="currentColor"
+        strokeWidth="1.85"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="17.4" cy="16.9" r="2.1" stroke="currentColor" strokeWidth="1.6" />
+      <path
+        d="M17.4 13.8v1M17.4 19v1M20.1 16.9h-1M15.7 16.9h-1M19.3 15l-.7.7M16.2 18.1l-.7.7M19.3 18.8l-.7-.7M16.2 15.7l-.7-.7"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function StatusListIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M9 7h10M9 12h10M9 17h10"
+        stroke="currentColor"
+        strokeWidth="1.85"
+        strokeLinecap="round"
+      />
+      <circle cx="5.2" cy="7" r="1.2" fill="currentColor" />
+      <circle cx="5.2" cy="12" r="1.2" fill="currentColor" />
+      <path
+        d="m3.8 17.1 1 1 2-2.1"
+        stroke="currentColor"
+        strokeWidth="1.85"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function FileCheckIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M7 3.5h6l4 4V19a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 19V5A1.5 1.5 0 0 1 7.5 3.5Z"
+        stroke="currentColor"
+        strokeWidth="1.85"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M13 3.8V8h4.2"
+        stroke="currentColor"
+        strokeWidth="1.85"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="m8.8 14.2 2 2 4-4.2"
+        stroke="currentColor"
+        strokeWidth="1.85"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
