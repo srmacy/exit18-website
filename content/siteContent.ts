@@ -507,7 +507,7 @@ export const siteContent = {
         "Service bay photo — add `/public/images/service-hero.jpg` and set servicePage.hero.photoSrc.",
       primaryCta: {
         label: "Request Service",
-        href: "#request-service",
+        href: "/service#request-service",
       },
       secondaryCtaLabel: "Call Shop",
     },

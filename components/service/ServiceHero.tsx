@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { siteContent } from "@/content/siteContent";
 import { AboutPhotoPlaceholder } from "@/components/about/AboutPhotoPlaceholder";
 
@@ -36,12 +35,13 @@ export function ServiceHero() {
             {h.subheadline}
           </p>
           <div className="flex flex-col gap-3.5 sm:flex-row sm:flex-wrap sm:items-center">
-            <Link
+            {/* Native <a> for reliable same-page hash scroll to #request-service */}
+            <a
               href={h.primaryCta.href}
               className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border-2 border-exit-green bg-exit-green px-8 py-3.5 text-sm font-bold uppercase tracking-wide text-white no-underline transition hover:-translate-y-px hover:border-exit-green-mid hover:bg-exit-green-mid"
             >
               {h.primaryCta.label}
-            </Link>
+            </a>
             <a
               href={`tel:${contact.phoneTel}`}
               className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border-2 border-white/40 bg-transparent px-8 py-3.5 text-sm font-semibold uppercase tracking-wide text-white no-underline transition hover:border-white/60 hover:bg-white/10"
