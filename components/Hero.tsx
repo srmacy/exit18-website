@@ -6,13 +6,13 @@ export function Hero() {
 
   return (
     <section
-      className="relative flex w-full min-h-[100svh] flex-col justify-end overflow-hidden bg-cover bg-[center_right] md:min-h-[700px]"
+      className="relative flex w-full min-h-[100svh] flex-col justify-end overflow-hidden bg-cover bg-[40%_center] md:min-h-[700px] md:bg-[42%_center]"
       style={{
-        backgroundImage: "url('/images/storefront.jpg')",
+        backgroundImage: "url('/images/hero-aerial.jpg')",
       }}
     >
       <div
-        className="absolute inset-0 bg-gradient-to-r from-[#0b2e1f]/95 via-[#0b2e1f]/70 to-transparent"
+        className="absolute inset-0 bg-gradient-to-r from-[#0b2e1f]/45 via-[#0b2e1f]/25 to-transparent"
         aria-hidden
       />
 

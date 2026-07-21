@@ -163,9 +163,9 @@ export const siteContent = {
   },
 
   assets: {
-    heroImageUrl:
-      "https://www.exit18equipment.com/uploads/6/7/6/2/6762647/background-images/1931004891.jpeg",
-    heroImageAlt: "Exit 18 Equipment shop exterior",
+    heroImageUrl: "/images/hero-aerial.jpg",
+    heroImageAlt:
+      "Aerial view of Exit 18 Equipment shop and property in Georgia, Vermont",
     /** Same shop photo used in About section */
     storyImageAlt: "Exit 18 Equipment shop",
   },
