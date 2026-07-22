@@ -215,7 +215,7 @@ export const siteContent = {
     },
     secondaryCta: {
       label: "Service & Repairs",
-      href: "/#services",
+      href: "/service#request-service",
     },
     stats: [
       { value: "30+", label: "Years Serving Vermont" },

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { BENCHLINE_APP_ORIGIN } from "@/lib/benchline-app-origin";
 
-const BENCHLINE_ORIGIN = "https://app.mybenchline.com";
 const MIN_H = 320;
 const MAX_H = 4000;
 
@@ -31,7 +31,7 @@ export function BenchlineToolEmbed({
 
   useEffect(() => {
     function onMessage(event: MessageEvent) {
-      if (event.origin !== BENCHLINE_ORIGIN) return;
+      if (event.origin !== BENCHLINE_APP_ORIGIN) return;
       const data = event.data;
       if (!data || data.type !== "benchline:resize") return;
       if (data.dealerSlug !== dealerSlug || data.tool !== tool) return;

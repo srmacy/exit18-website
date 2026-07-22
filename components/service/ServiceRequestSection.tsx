@@ -1,5 +1,6 @@
 import { BenchlineToolEmbed } from "@/components/benchline/BenchlineToolEmbed";
 import { siteContent } from "@/content/siteContent";
+import { benchlineCustomerToolUrl } from "@/lib/benchline-app-origin";
 
 export function ServiceRequestSection() {
   const { requestSection } = siteContent.servicePage;
@@ -38,7 +39,9 @@ export function ServiceRequestSection() {
 
         <div className="overflow-hidden rounded-2xl border border-black/[0.06] bg-[#0b1317] shadow-[0_28px_72px_rgba(0,0,0,0.18)]">
           <BenchlineToolEmbed
-            src="https://app.mybenchline.com/exit18/service-request?embed=1"
+            src={benchlineCustomerToolUrl("/exit18/service-request", {
+              embed: "1",
+            })}
             title="Exit 18 Equipment Service Request"
             tool="service-request"
             defaultHeight={900}

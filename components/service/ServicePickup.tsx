@@ -1,5 +1,6 @@
 import { BenchlineToolEmbed } from "@/components/benchline/BenchlineToolEmbed";
 import { siteContent } from "@/content/siteContent";
+import { benchlineCustomerToolUrl } from "@/lib/benchline-app-origin";
 
 export function ServicePickup() {
   const { pickupSection: s } = siteContent.servicePage;
@@ -31,7 +32,7 @@ export function ServicePickup() {
 
         <div className="overflow-hidden rounded-2xl border border-black/[0.06] bg-[#0b1317] shadow-[0_28px_72px_rgba(0,0,0,0.16)]">
           <BenchlineToolEmbed
-            src="https://app.mybenchline.com/exit18/pickup?embed=1"
+            src={benchlineCustomerToolUrl("/exit18/pickup", { embed: "1" })}
             title="Exit 18 Equipment Pickup & Delivery"
             tool="pickup"
             defaultHeight={760}

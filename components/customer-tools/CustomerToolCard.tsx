@@ -3,6 +3,7 @@ import Link from "next/link";
 
 type CustomerToolCardProps = {
   title: string;
+  tagline: string;
   href: string;
   ctaLabel: string;
   benefits: readonly string[];
@@ -12,6 +13,7 @@ type CustomerToolCardProps = {
 
 export function CustomerToolCard({
   title,
+  tagline,
   href,
   ctaLabel,
   benefits,
@@ -19,69 +21,73 @@ export function CustomerToolCard({
   preview,
 }: CustomerToolCardProps) {
   return (
-    <article
-      className="group flex h-full flex-col overflow-hidden rounded-[18px] border border-[rgba(10,74,42,0.09)] border-b-[3px] border-b-[#159451] bg-[rgba(255,255,255,0.96)] p-[22px] shadow-[0_18px_45px_rgba(14,48,30,0.09),0_3px_10px_rgba(14,48,30,0.04)] transition-[transform,box-shadow] duration-[180ms] ease-out motion-safe:md:hover:-translate-y-[3px] motion-safe:md:hover:shadow-[0_24px_52px_rgba(14,48,30,0.13),0_5px_12px_rgba(14,48,30,0.05)] sm:p-[26px]"
-    >
-      <div className="grid flex-1 grid-cols-1 items-stretch gap-5 md:grid-cols-[minmax(0,1fr)_minmax(140px,170px)] md:gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(168px,210px)] lg:gap-[22px]">
-        <div className="flex min-w-0 flex-col">
-          <div className="flex items-start gap-3.5">
-            <span
-              className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-[rgba(16,185,129,0.12)] bg-[linear-gradient(145deg,rgba(16,185,129,0.14),rgba(16,185,129,0.06))] text-[#128047]"
-              aria-hidden
-            >
+    <article className="customer-tools-card group h-full overflow-hidden p-5 md:p-[clamp(1.35rem,2vw,1.8rem)]">
+      <div className="customer-tool-card-content">
+        <div className="customer-tool-copy flex min-w-0 flex-col">
+          <div className="flex items-start gap-[0.9rem]">
+            <span className="customer-tools-icon-wrap shrink-0" aria-hidden>
               {icon}
             </span>
-            <h3 className="font-display pt-1 text-[22px] font-extrabold uppercase leading-[1.05] tracking-tight text-[#0b2114] sm:text-[25px]">
-              {title}
-            </h3>
+            <div className="min-w-0 pt-0.5">
+              <h3 className="font-display text-[clamp(1.75rem,2.4vw,2.35rem)] font-extrabold uppercase leading-[0.98] tracking-[-0.025em] text-[#f6f8f6]">
+                {formatTitle(title)}
+              </h3>
+              <p className="mt-[0.65rem] text-[14px] font-semibold leading-[1.4] text-[var(--dealer-accent)]">
+                {tagline}
+              </p>
+            </div>
           </div>
 
-          <ul className="mt-5 space-y-[11px]">
+          <ul className="mt-[1.1rem] space-y-[0.72rem]">
             {benefits.map((benefit) => (
               <li
                 key={benefit}
-                className="flex items-start gap-2.5 text-[15px] leading-[1.45] text-[#263b30]"
+                className="flex items-start gap-2.5 text-[14px] leading-[1.4] text-[rgba(245,248,246,0.86)] sm:text-[15px]"
               >
-                <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-[#159451]" />
+                <span className="customer-tools-check mt-0.5" aria-hidden>
+                  <CheckMark />
+                </span>
                 <span>{benefit}</span>
               </li>
             ))}
           </ul>
+        </div>
 
-          <div className="mt-auto pt-7">
-            <Link
-              href={href}
-              className="group/cta inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-[7px] border border-[rgba(0,64,34,0.5)] bg-[linear-gradient(180deg,#08763f_0%,#055b31_100%)] px-5 text-[13px] font-bold uppercase tracking-[0.045em] text-white no-underline shadow-[0_7px_16px_rgba(7,104,57,0.18),inset_0_1px_0_rgba(255,255,255,0.15)] transition-[transform,box-shadow,background] duration-[180ms] ease-out motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-[0_11px_22px_rgba(7,104,57,0.24),inset_0_1px_0_rgba(255,255,255,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08763f]/50 md:w-auto"
-            >
-              <span>{ctaLabel}</span>
-              <span
-                aria-hidden
-                className="inline-block transition-transform duration-[180ms] ease-out motion-safe:group-hover/cta:translate-x-[3px]"
-              >
-                →
-              </span>
-            </Link>
+        <div className="customer-tool-preview min-w-0">
+          <div className="transition-transform duration-[220ms] ease-out motion-safe:md:group-hover:-translate-y-1.5">
+            {preview}
           </div>
         </div>
 
-        <div className="min-w-0 md:self-stretch">
-          <div className="h-full transition-transform duration-[180ms] ease-out motion-safe:md:group-hover:-translate-y-1.5">
-            {preview}
-          </div>
+        <div className="customer-tool-cta-row">
+          <Link href={href} className="customer-tool-cta">
+            <span className="customer-tool-cta-label">{ctaLabel}</span>
+            <span className="customer-tool-cta-arrow" aria-hidden="true">
+              →
+            </span>
+          </Link>
         </div>
       </div>
     </article>
   );
 }
 
-function CheckIcon({ className }: { className?: string }) {
+/** Prefer a clean two-line wrap for “Pickup & Delivery” on desktop. */
+function formatTitle(title: string) {
+  if (title === "Pickup & Delivery") {
+    return (
+      <>
+        Pickup &amp;{" "}
+        <span className="md:block">Delivery</span>
+      </>
+    );
+  }
+  return title;
+}
+
+function CheckMark() {
   return (
-    <svg
-      className={className}
-      viewBox="0 0 16 16"
-      fill="none"
-      aria-hidden
-    >
+    <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden>
       <path
         d="M3.5 8.25 6.4 11.1 12.5 4.9"
         stroke="currentColor"
@@ -93,51 +99,90 @@ function CheckIcon({ className }: { className?: string }) {
   );
 }
 
-export function WrenchIcon({ className }: { className?: string }) {
+/** Mechanical wrench + partial gear badge for Service Request. */
+export function ServiceRequestIcon({ className }: { className?: string }) {
   return (
     <svg
       className={className}
-      width="26"
-      height="26"
-      viewBox="0 0 24 24"
+      width="30"
+      height="30"
+      viewBox="0 0 34 34"
       fill="none"
-      aria-hidden
+      aria-hidden="true"
     >
+      <circle
+        cx="24.5"
+        cy="9.5"
+        r="5.2"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        opacity="0.55"
+      />
       <path
-        d="M14.7 6.3a4.2 4.2 0 0 0-5.9 5.9L3 18l3 3 5.8-5.8a4.2 4.2 0 0 0 5.9-5.9l-2.5 2.5-2.5-2.5 2.5-2.5Z"
+        d="M24.5 5.2v1.4M24.5 12.4v1.4M20.2 9.5h1.4M27.4 9.5h1.4M21.5 6.5l1 1M26.5 11.5l1 1M26.5 6.5l-1 1M21.5 11.5l-1 1"
+        stroke="currentColor"
+        strokeWidth="1.35"
+        strokeLinecap="round"
+        opacity="0.55"
+      />
+      <path
+        d="M18.2 8.4a5.4 5.4 0 0 0-7.6 7.6L4 22.6 7.4 26l6.6-6.6a5.4 5.4 0 0 0 7.6-7.6l-3.2 3.2-3.2-3.2 3.2-3.2Z"
         stroke="currentColor"
         strokeWidth="1.85"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+      <circle cx="12.6" cy="14" r="1.35" fill="currentColor" opacity="0.9" />
     </svg>
   );
 }
 
-export function TruckIcon({ className }: { className?: string }) {
+/** Utility truck with subtle gear detail for Pickup & Delivery. */
+export function PickupTruckIcon({ className }: { className?: string }) {
   return (
     <svg
       className={className}
-      width="26"
-      height="26"
-      viewBox="0 0 24 24"
+      width="30"
+      height="30"
+      viewBox="0 0 34 34"
       fill="none"
-      aria-hidden
+      aria-hidden="true"
     >
       <path
-        d="M3 7.5h10.5V16H3V7.5Z"
+        d="M3.5 12.5h13.5V22H3.5v-9.5Z"
         stroke="currentColor"
         strokeWidth="1.85"
         strokeLinejoin="round"
       />
       <path
-        d="M13.5 10.5H18l2.5 3V16h-7V10.5Z"
+        d="M17 15.5h6.2L26.5 19.2V22H17v-6.5Z"
         stroke="currentColor"
         strokeWidth="1.85"
         strokeLinejoin="round"
       />
-      <circle cx="7" cy="17.5" r="1.6" stroke="currentColor" strokeWidth="1.85" />
-      <circle cx="17" cy="17.5" r="1.6" stroke="currentColor" strokeWidth="1.85" />
+      <path
+        d="M3.5 12.5 6 9h7.5l1.5 3.5"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinejoin="round"
+      />
+      <circle cx="8.2" cy="23.5" r="2.1" stroke="currentColor" strokeWidth="1.7" />
+      <circle cx="22.2" cy="23.5" r="2.1" stroke="currentColor" strokeWidth="1.7" />
+      <circle
+        cx="27.2"
+        cy="8.8"
+        r="3.4"
+        stroke="currentColor"
+        strokeWidth="1.45"
+        opacity="0.5"
+      />
+      <path
+        d="M27.2 6.2v1M27.2 10.4v1M24.6 8.8h1M28.8 8.8h1"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        opacity="0.5"
+      />
     </svg>
   );
 }
