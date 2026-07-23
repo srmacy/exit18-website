@@ -30,14 +30,18 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteContent.seo.siteUrl),
   icons: {
     icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.png", sizes: "512x512", type: "image/png" },
+      { url: "/icon.png", sizes: "512x512", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [
       {
-        url: "/favicon.png",
-        sizes: "32x32",
+        url: "/apple-touch-icon.png",
+        sizes: "180x180",
         type: "image/png",
       },
     ],
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
   },
   title: {
     default: siteContent.seo.title,

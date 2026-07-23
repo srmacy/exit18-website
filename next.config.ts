@@ -32,6 +32,10 @@ const nextConfig: NextConfig = {
         source: "/icon.png",
         headers: crossOriginPublicAssetHeaders,
       },
+      {
+        source: "/apple-touch-icon.png",
+        headers: crossOriginPublicAssetHeaders,
+      },
     ];
   },
 };
